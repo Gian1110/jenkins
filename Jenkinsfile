@@ -5,10 +5,8 @@ pipeline {
     agent any
 
     stages {
-        stage('Hello') {
-            steps {
-                echo "$inicia"
-            }
-        }
+       
+       agent{ dockerfile true }
+        
     }
 } 
