@@ -2,11 +2,14 @@ pipeline {
     environment {
         inicia ='Hello'
     }
-    agent any
-
-    stages {
-       
-       agent{ dockerfile true }
-        
-    }
+    agent{ dockerfile true }
+    stages{
+            stage('test'){
+                steps{
+                    sh 'node --version'
+                    sh 'svn --version'
+                }
+            }
+        }
+    
 } 
