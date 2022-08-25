@@ -14,11 +14,7 @@ pipeline {
             sh 'mvn clean install'
             }
         }
-        stage('build docker') {
-            step {
-                sh 'docker build -t shanem/spring-petclinic:latest .'
-            }
-        }
+        
     }
     
 } 
