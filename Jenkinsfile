@@ -3,18 +3,12 @@ pipeline {
         inicia ='Hello'
     }
     agent any
-    stages{
-        stage('Maven Install'){
-            agent{
-                docker{
-                    image 'maven:3.5.0'
-                }
-            }
-            steps{
-            sh 'mvn clean install'
+
+    stages {
+        stage('Hello') {
+            steps {
+                echo "$inicia"
             }
         }
-        
     }
-    
 } 
