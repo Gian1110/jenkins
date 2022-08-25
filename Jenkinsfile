@@ -4,11 +4,12 @@ pipeline {
     }
     agent any
 
-    stages {
-        stage('Hello') {
-            steps {
-                echo "$inicia"
-            }
+    stages('build docker') {
+        step{
+            sh 'mvn clean install'
+        }
+        step {
+            sh 'docker build -t shanem/spring:last .'
         }
     }
 } 
