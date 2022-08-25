@@ -3,13 +3,22 @@ pipeline {
         inicia ='Hello'
     }
     agent any
-
-    stages('build docker') {
-        step{
+    stages{
+        stage('Maven Install'){
+            agent{
+                docker{
+                    image 'maven:3.5.0'
+                }
+            }
+            step{
             sh 'mvn clean install'
+            }
         }
-        step {
-            sh 'docker build -t shanem/spring:last .'
+        stage('build docker') {
+            step {
+                sh 'docker build -t shanem/spring-petclinic:latest .'
+            }
         }
     }
+    
 } 
