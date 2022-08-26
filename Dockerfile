@@ -1,7 +1,9 @@
-FROM node:18.7.0
+FROM golang:1.17-alpine AS build
 
-RUN npm install
+WORKDIR /src/
+COPY main.go go.* /src/
+RUN CGO_ENABLED=0 go build -o /bin/demo
 
-EXPOSE 3000
-
-CMD npm start
+FROM scratch
+COPY --from=build /bin/demo /bin/demo
+ENTRYPOINT ["/bin/demo"]
