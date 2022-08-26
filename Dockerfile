@@ -1,3 +1,7 @@
-FROM node:16.13.1-alpine
+FROM node:18.7.0
 
-RUN apk add -U subversion
+RUN npm install
+
+EXPOSE 3000
+
+CMD npm start
