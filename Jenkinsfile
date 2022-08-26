@@ -2,12 +2,12 @@ pipeline {
     environment {
         inicia ='Hello'
     }
-    agent{ dockerfile true }
+    agent{ docker {image 'node:16.13.1-alpine'} }
     stages{
             stage('test'){
                 steps{
-                    sh 'node --version'
-                    sh 'svn --version'
+                    sh 'mvn --version'
+                   
                 }
             }
         }
