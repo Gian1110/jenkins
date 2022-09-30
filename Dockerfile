@@ -1,1 +1,1 @@
-RUN -p 3000:8888 --name hello cloudnatived/demo:hello
+FROM node:18-alpine3.15
