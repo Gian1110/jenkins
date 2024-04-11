@@ -12,8 +12,12 @@ pipeline {
     }
     stages {
           stage('stop/rm') {
-
-            sh 'docker ps'
+            steps{
+                script {
+                    sh 'docker ps'
+                }
+            }
+            
             // when {
             //     expression { 
             //         DOCKER_EXIST = sh(returnStdout: true, script: 'echo "$(docker ps -q --filter name=${name_final})"').trim()
