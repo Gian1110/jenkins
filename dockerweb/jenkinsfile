@@ -35,29 +35,29 @@ pipeline {
                                   
             }
            
-        stage('build') {
-            // steps {
-                // script{
-                //     sh ''' 
-                //     docker build -t ${name_imagen}:${tag_imagen} -f /dockerweb/Dockerfile .
-                //     '''
-                //     }
+        // stage('build') {
+        //     steps {
+        //         script{
+        //             sh ''' 
+        //             docker build -t ${name_imagen}:${tag_imagen} -f /dockerweb/Dockerfile .
+        //             '''
+        //             }
                     
-                // }                    
+        //         }                    
                                   
-            }
-            stage('run') {
+        //     }
+            // stage('run') {
             // steps {
-            //     // script{
-            //     //     sh ''' 
-            //     //         docker run -dp ${puerto_imagen}:80 --name ${name_final} ${name_imagen}:${tag_imagen}
+            //     script{
+            //         sh ''' 
+            //             docker run -dp ${puerto_imagen}:80 --name ${name_final} ${name_imagen}:${tag_imagen}
  
-            //     //     '''
-            //     //     }
+            //         '''
+            //         }
                     
             //     }                    
                                   
-            }
+            // }
             
           
         }   
