@@ -6,6 +6,8 @@ pipeline {
         string(name: 'name_imagen', defaultValue: 'iproyecto-qa', description: 'nombre de la imagen')
         string(name: 'tag_imagen', defaultValue: 'latest', description: 'etiqueta de la imagen')
         string(name: 'puerto_imagen', defaultValue: '81', description: 'puerto a publicar')
+        string(name: 'hostname_registry', defaultValue: '192.168.100.173', description: 'nombre del host donde esta el registry')
+        string(name: 'port_registry', defaultValue: '5000', description: 'port del registry')
     }
     environment {
         name_final = "${name_container}${tag_imagen}${puerto_imagen}"        
@@ -22,6 +24,7 @@ pipeline {
                 script{
                     sh ''' 
                          docker stop ${name_final}
+                         docker rm  ${name_final}
                     '''
                     }
                     
@@ -41,18 +44,27 @@ pipeline {
                                   
             }
 
-        stage('run') {
+        stage('rename and push') {
             steps {
-                script{
-                    sh ''' 
-                        docker run -dp ${puerto_imagen}:80 --name ${name_final} ${name_imagen}:${tag_imagen}
+                script {
+                    sh '''
+                        docker tag ${name_imagen}:${tag_imagen} ${hostname_registry}:${port_registry}/${name_imagen}:${tag_imagen}
+                        docker rmi ${name_imagen}:${tag_imagen}
+                        docker push ${hostname_registry}:${port_registry}/${name_imagen}:${tag_imagen}
  
                     '''
                     }
-                    
-                }                    
-                                  
+                }                                 
             }
-            
-        }   
+        stage('rmi') {
+            steps {
+                script {
+                    sh '''
+                        docker rmi ${hostname_registry}:${port_registry}/${name_imagen}:${tag_imagen}
+                    '''
+                    }
+                }                                 
+            }
+        }
+
     }
