@@ -48,6 +48,7 @@ pipeline {
             steps {
                 script {
                     sh '''
+                        echo "${hostname_registry}:${port_registry}/${name_imagen}:${tag_imagen}"
                         docker tag ${name_imagen}:${tag_imagen} ${hostname_registry}:${port_registry}/${name_imagen}:${tag_imagen}
                         docker rmi ${name_imagen}:${tag_imagen}
                         docker push ${hostname_registry}:${port_registry}/${name_imagen}:${tag_imagen}
