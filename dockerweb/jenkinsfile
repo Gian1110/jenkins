@@ -76,7 +76,7 @@ pipeline {
         stage('ssh') {
             steps {
                 script {
-                    sshCommand remote: remote, command: "sudo docker ps"
+                    sshCommand remote: remote, command: "docker ps"
                     }
                 }
             }
