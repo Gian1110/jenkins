@@ -1,5 +1,5 @@
 def remote=[:]
-remote.name = 'pi'
+remote.name = 'pipe'
 remote.host = '192.168.100.173'
 remote.user = 'gian'
 remote.password = '123456'
@@ -76,7 +76,7 @@ pipeline {
         stage('ssh') {
             steps {
                 script {
-                    sshCommand remote: remote, command: "ls"
+                    sshCommand remote: remote, command: "sudo docker ps"
                     }
                 }
             }
