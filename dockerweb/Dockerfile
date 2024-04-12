@@ -1,20 +1,8 @@
-FROM php:7.1.17-apache
-LABEL maintainer="Jaivic"
+# Usar la imagen oficial de Nginx como base
+FROM nginx
 
-RUN a2enmod rewrite
+# Copiar el archivo de configuración personalizado que reemplazará al archivo predeterminado de Nginx
+COPY nginx.conf /etc/nginx/nginx.conf
 
-RUN apt-get update
-RUN apt-get install -y \
-        zlib1g-dev \
-        libicu-dev \
-        libxml2-dev \
-        libpq-dev\
-	
-        && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
-        && docker-php-ext-install pdo pdo_mysql pdo_pgsql zip intl xmlrpc soap opcache \
-        && docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
-        && apt-get install vim -y
-
-COPY  . /var/www/html/
-WORKDIR /var/www/html/
-
+# Copiar el archivo HTML "Hola Mundo" al directorio de HTML predeterminado de Nginx
+COPY index.html /usr/share/nginx/html/
