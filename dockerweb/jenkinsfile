@@ -17,7 +17,8 @@ pipeline {
         string(name: 'port_registry', defaultValue: '5000', description: 'port del registry')
     }
     environment {
-        name_final = "${name_container}${tag_imagen}${puerto_imagen}"        
+        name_final = "${name_container}${tag_imagen}${puerto_imagen}"
+        name_registry = "${hostname_registry}:${port_registry}/${name_imagen}:${tag_imagen}"        
     }
     stages {
           stage('stop/rm') {
@@ -55,10 +56,9 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        echo "${hostname_registry}:${port_registry}/${name_imagen}:${tag_imagen}"
-                        docker tag ${name_imagen}:${tag_imagen} ${hostname_registry}:${port_registry}/${name_imagen}:${tag_imagen}
+                        docker tag ${name_imagen}:${tag_imagen} ${name_registry}
                         docker rmi ${name_imagen}:${tag_imagen}
-                        docker push ${hostname_registry}:${port_registry}/${name_imagen}:${tag_imagen}
+                        docker push ${name_registry}
  
                     '''
                     }
@@ -73,12 +73,33 @@ pipeline {
                     }
                 }                                 
             }
-        stage('ssh') {
-            steps {
-                script {
-                    sshCommand remote: remote, command: "docker ps"
-                    }
+        stage('ssh stop/rm') {
+            when {
+                expression { 
+                    DOCKER_EXIST = sh(returnStdout: true, script: 'echo "$(sshCommand remote: remote, command: "docker ps -q --filter name=${name_final}")"').trim()
+                    return  DOCKER_EXIST != '' 
                 }
+            }
+            steps {
+                script{
+                    sh ''' 
+                         docker stop ${name_final}
+                         docker rm  ${name_final}
+                    '''
+                    }
+                    
+                }  
+            
+            }
+        stage('ssh run') {
+            steps {
+                script{
+                    sshCommand remote: remote, command: "docker pull ${name_registry}"
+                    sshCommand remote: remote, command: "docker run -dp ${puerto_imagen}:80 --name ${name_final} ${name_registry}"
+                    }
+                    
+                }  
+            
             }
         }
 
