@@ -3,7 +3,8 @@ LABEL maintainer="Jaivic"
 
 RUN a2enmod rewrite
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get update
+RUN apt-get install -y \
         zlib1g-dev \
         libicu-dev \
         libxml2-dev \
