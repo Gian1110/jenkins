@@ -1,7 +1,7 @@
 def remote=[:]
 remote.name = 'pipe'
 remote.host = '192.168.100.173'
-remote.user = 'gian'
+remote.user = 'jenkinsuser'
 remote.password = '123456'
 remote.allowAnyHosts = true
 
