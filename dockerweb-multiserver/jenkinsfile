@@ -20,15 +20,16 @@ pipeline {
 
     }
     environment {
-        name_registry = "${hostname_registry}:${port_registry}/${name_imagen}:${tag_imagen}"        
-    }
-    stages {
-        def remoteHost=[:]
+        name_registry = "${hostname_registry}:${port_registry}/${name_imagen}:${tag_imagen}"    
+        remoteHost=[:]
         remoteHost.name = 'pipe'
         remoteHost.host = params.remoteHost
         remoteHost.user = params.remoteUser
         remoteHost.password = params.remotePassword
-        remoteHost.allowAnyHosts = true
+        remoteHost.allowAnyHosts = true    
+    }
+    stages {
+        
         stage('build and push') {
             steps {
                 script{
