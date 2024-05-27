@@ -78,12 +78,14 @@ pipeline {
         stage('ssh stop/rm') {
             when {
                 expression { 
+                    def remoteHost = readJSON text: env.REMOTE_HOST_JSON
                     DOCKER_EXIST = sh(returnStdout: true, script: 'echo "$(sshCommand remote: remoteHost, command: "docker ps -q --filter name=${name_container}")"').trim()
                     return  DOCKER_EXIST != '' 
                 }
             }
             steps {
                 script{
+                    def remoteHost = readJSON text: env.REMOTE_HOST_JSON
                     sshCommand remote: remoteHost, command: "docker stop ${name_final}"
                     sshCommand remote: remoteHost, command: "docker rm  ${name_final}"
                 
@@ -95,6 +97,7 @@ pipeline {
         stage('ssh run') {
             steps {
                 script{
+                    def remoteHost = readJSON text: env.REMOTE_HOST_JSON
                     sshCommand remote: remoteHost, command: "docker run -dp ${puerto_imagen}:80 --name ${name_final} ${name_registry}"
                     }
                     
