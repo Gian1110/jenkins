@@ -52,9 +52,9 @@ pipeline {
                 script{
                     def remoteHost=[:]
                     remoteHost.name = 'pipe'
-                    remoteHost.host = remoteHost
-                    remoteHost.user = remoteUser
-                    remoteHost.password = remotePassword
+                    remoteHost.host = params.remoteHost
+                    remoteHost.user = params.remoteUser
+                    remoteHost.password = params.remotePassword
                     remoteHost.allowAnyHosts = true
 
 
