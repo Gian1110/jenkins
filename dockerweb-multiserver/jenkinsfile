@@ -33,35 +33,35 @@ pipeline {
                     password: params.remotePassword,
                     allowAnyHosts: true,
                 ]
-
+                
                 env.REMOTE_HOST_JSON = groovy.json.JsonOutput.toJson(remoteHost)   
                 }
             }
 
         }
 
-        // stage('build and push') {
-        //     steps {
-        //         script{
-        //             sh ''' 
-        //             docker build -t ${name_registry} dockerweb-multiserver/
-        //             docker push ${name_registry}
-        //             '''
-        //             }
+        stage('build and push') {
+            steps {
+                script{
+                    sh ''' 
+                    docker build -t ${name_registry} dockerweb-multiserver/
+                    docker push ${name_registry}
+                    '''
+                    }
                     
-        //         }                    
+                }                    
                                   
-        //     }
+            }
 
-        // stage('rmi') {
-        //     steps {
-        //         script {
-        //             sh '''
-        //                 docker rmi ${name_registry}
-        //             '''
-        //             }
-        //         }                                 
-        //     }
+        stage('rmi') {
+            steps {
+                script {
+                    sh '''
+                        docker rmi ${name_registry}
+                    '''
+                    }
+                }                                 
+            }
 
         stage('ssh download') {
             steps {
@@ -75,32 +75,32 @@ pipeline {
             
             }
 
-        // stage('ssh stop/rm') {
-        //     when {
-        //         expression { 
-        //             DOCKER_EXIST = sh(returnStdout: true, script: 'echo "$(sshCommand remote: remoteHost, command: "docker ps -q --filter name=${name_container}")"').trim()
-        //             return  DOCKER_EXIST != '' 
-        //         }
-        //     }
-        //     steps {
-        //         script{
-        //             sshCommand remote: remoteHost, command: "docker stop ${name_final}"
-        //             sshCommand remote: remoteHost, command: "docker rm  ${name_final}"
+        stage('ssh stop/rm') {
+            when {
+                expression { 
+                    DOCKER_EXIST = sh(returnStdout: true, script: 'echo "$(sshCommand remote: remoteHost, command: "docker ps -q --filter name=${name_container}")"').trim()
+                    return  DOCKER_EXIST != '' 
+                }
+            }
+            steps {
+                script{
+                    sshCommand remote: remoteHost, command: "docker stop ${name_final}"
+                    sshCommand remote: remoteHost, command: "docker rm  ${name_final}"
                 
-        //             }
+                    }
                     
-        //         }  
+                }  
             
-        //     }
-        // stage('ssh run') {
-        //     steps {
-        //         script{
-        //             sshCommand remote: remoteHost, command: "docker run -dp ${puerto_imagen}:80 --name ${name_final} ${name_registry}"
-        //             }
+            }
+        stage('ssh run') {
+            steps {
+                script{
+                    sshCommand remote: remoteHost, command: "docker run -dp ${puerto_imagen}:80 --name ${name_final} ${name_registry}"
+                    }
                     
-        //         }  
+                }  
             
-        //     }
+            }
         }
 
     }
