@@ -1,9 +1,9 @@
-def remotehost=[:]
-remotehost.name = 'pipe'
-//remotehost.host = '192.168.100.173'
-//remotehost.user = 'jenkinsuser'
-//remotehost.password = '123456'
-remotehost.allowAnyHosts = true
+def remoteHos=[:]
+remote.name = 'pipe'
+//remote.host = '192.168.100.173'
+//remote.user = 'jenkinsuser'
+//remote.password = '123456'
+remote.allowAnyHosts = true
 
 
 pipeline {
@@ -21,9 +21,9 @@ pipeline {
         string(name: 'port_registry', defaultValue: '5000', description: 'port del registry')
 
     //server values
-        string(name: 'remotehost.host', defaultValue: '192.168.100.173', description: 'dns o ip del host')
-        string(name: 'remotehost.user', defaultValue: 'jenkinsuser', description: 'usuario ssh')
-        string(name: 'remotehost.password', defaultValue: '123456', description: 'password ssh')
+        string(name: 'remote.host', defaultValue: '192.168.100.173', description: 'dns o ip del host')
+        string(name: 'remote.user', defaultValue: 'jenkinsuser', description: 'usuario ssh')
+        string(name: 'remote.password', defaultValue: '123456', description: 'password ssh')
 
 
     }
@@ -58,8 +58,8 @@ pipeline {
         stage('ssh download') {
             steps {
                 script{
-                    sshCommand remote: remotehost, command: "docker ps"
-                    // sshCommand remote: remotehost, command: "docker pull ${name_registry}"
+                    sshCommand remote: remote, command: "docker ps"
+                    // sshCommand remote: remote, command: "docker pull ${name_registry}"
                     }
                     
                 }  
@@ -69,7 +69,7 @@ pipeline {
         // stage('ssh stop/rm') {
         //     when {
         //         expression { 
-        //             DOCKER_EXIST = sh(returnStdout: true, script: 'echo "$(sshCommand remote: remotehost, command: "docker ps -q --filter name=${name_container}")"').trim()
+        //             DOCKER_EXIST = sh(returnStdout: true, script: 'echo "$(sshCommand remote: remote, command: "docker ps -q --filter name=${name_container}")"').trim()
         //             return  DOCKER_EXIST != '' 
         //         }
         //     }
@@ -87,7 +87,7 @@ pipeline {
         // stage('ssh run') {
         //     steps {
         //         script{
-        //             sshCommand remote: remotehost, command: "docker run -dp ${puerto_imagen}:80 --name ${name_final} ${name_registry}"
+        //             sshCommand remote: remote, command: "docker run -dp ${puerto_imagen}:80 --name ${name_final} ${name_registry}"
         //             }
                     
         //         }  
