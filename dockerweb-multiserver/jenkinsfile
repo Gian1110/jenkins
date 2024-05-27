@@ -23,41 +23,38 @@ pipeline {
         name_registry = "${hostname_registry}:${port_registry}/${name_imagen}:${tag_imagen}"        
     }
     stages {
-           
-        // stage('build and push') {
-        //     steps {
-        //         script{
-        //             sh ''' 
-        //             docker build -t ${name_registry} dockerweb-multiserver/
-        //             docker push ${name_registry}
-        //             '''
-        //             }
+        def remoteHost=[:]
+        remoteHost.name = 'pipe'
+        remoteHost.host = params.remoteHost
+        remoteHost.user = params.remoteUser
+        remoteHost.password = params.remotePassword
+        remoteHost.allowAnyHosts = true
+        stage('build and push') {
+            steps {
+                script{
+                    sh ''' 
+                    docker build -t ${name_registry} dockerweb-multiserver/
+                    docker push ${name_registry}
+                    '''
+                    }
                     
-        //         }                    
+                }                    
                                   
-        //     }
+            }
 
-        // stage('rmi') {
-        //     steps {
-        //         script {
-        //             sh '''
-        //                 docker rmi ${name_registry}
-        //             '''
-        //             }
-        //         }                                 
-        //     }
+        stage('rmi') {
+            steps {
+                script {
+                    sh '''
+                        docker rmi ${name_registry}
+                    '''
+                    }
+                }                                 
+            }
 
         stage('ssh download') {
             steps {
                 script{
-                    def remoteHost=[:]
-                    remoteHost.name = 'pipe'
-                    remoteHost.host = params.remoteHost
-                    remoteHost.user = params.remoteUser
-                    remoteHost.password = params.remotePassword
-                    remoteHost.allowAnyHosts = true
-
-
                     sshCommand remote: remoteHost, command: "docker ps"
                     // sshCommand remote: remote, command: "docker pull ${name_registry}"
                     }
@@ -66,33 +63,33 @@ pipeline {
             
             }
 
-        // stage('ssh stop/rm') {
-        //     when {
-        //         expression { 
-        //             DOCKER_EXIST = sh(returnStdout: true, script: 'echo "$(sshCommand remote: remote, command: "docker ps -q --filter name=${name_container}")"').trim()
-        //             return  DOCKER_EXIST != '' 
-        //         }
-        //     }
-        //     steps {
-        //         script{
-        //             sh ''' 
-        //                  docker stop ${name_final}
-        //                  docker rm  ${name_final}
-        //             '''
-        //             }
+        stage('ssh stop/rm') {
+            when {
+                expression { 
+                    DOCKER_EXIST = sh(returnStdout: true, script: 'echo "$(sshCommand remote: remote, command: "docker ps -q --filter name=${name_container}")"').trim()
+                    return  DOCKER_EXIST != '' 
+                }
+            }
+            steps {
+                script{
+                    sh ''' 
+                         docker stop ${name_final}
+                         docker rm  ${name_final}
+                    '''
+                    }
                     
-        //         }  
+                }  
             
-        //     }
-        // stage('ssh run') {
-        //     steps {
-        //         script{
-        //             sshCommand remote: remote, command: "docker run -dp ${puerto_imagen}:80 --name ${name_final} ${name_registry}"
-        //             }
+            }
+        stage('ssh run') {
+            steps {
+                script{
+                    sshCommand remote: remote, command: "docker run -dp ${puerto_imagen}:80 --name ${name_final} ${name_registry}"
+                    }
                     
-        //         }  
+                }  
             
-        //     }
+            }
         }
 
     }
