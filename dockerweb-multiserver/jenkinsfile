@@ -59,40 +59,40 @@ pipeline {
             steps {
                 script{
                     sshCommand remote: remote_host, command: "docker ps"
-                    sshCommand remote: remote_host, command: "docker pull ${name_registry}"
+                    // sshCommand remote: remote_host, command: "docker pull ${name_registry}"
                     }
                     
                 }  
             
             }
 
-        stage('ssh stop/rm') {
-            when {
-                expression { 
-                    DOCKER_EXIST = sh(returnStdout: true, script: 'echo "$(sshCommand remote: remote_host, command: "docker ps -q --filter name=${name_container}")"').trim()
-                    return  DOCKER_EXIST != '' 
-                }
-            }
-            steps {
-                script{
-                    sh ''' 
-                         docker stop ${name_final}
-                         docker rm  ${name_final}
-                    '''
-                    }
+        // stage('ssh stop/rm') {
+        //     when {
+        //         expression { 
+        //             DOCKER_EXIST = sh(returnStdout: true, script: 'echo "$(sshCommand remote: remote_host, command: "docker ps -q --filter name=${name_container}")"').trim()
+        //             return  DOCKER_EXIST != '' 
+        //         }
+        //     }
+        //     steps {
+        //         script{
+        //             sh ''' 
+        //                  docker stop ${name_final}
+        //                  docker rm  ${name_final}
+        //             '''
+        //             }
                     
-                }  
+        //         }  
             
-            }
-        stage('ssh run') {
-            steps {
-                script{
-                    sshCommand remote: remote_host, command: "docker run -dp ${puerto_imagen}:80 --name ${name_final} ${name_registry}"
-                    }
+        //     }
+        // stage('ssh run') {
+        //     steps {
+        //         script{
+        //             sshCommand remote: remote_host, command: "docker run -dp ${puerto_imagen}:80 --name ${name_final} ${name_registry}"
+        //             }
                     
-                }  
+        //         }  
             
-            }
+        //     }
         }
 
     }
