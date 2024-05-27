@@ -1,8 +1,5 @@
 def remoteHost=[:]
 remoteHost.name = 'pipe'
-//remote.host = '192.168.100.173'
-//remote.user = 'jenkinsuser'
-//remote.password = '123456'
 remoteHost.allowAnyHosts = true
 
 
