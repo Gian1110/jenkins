@@ -94,16 +94,16 @@ pipeline {
                 }  
             
             }
-        stage('ssh run') {
-            steps {
-                script{
-                    def remoteHost = readJSON text: env.REMOTE_HOST_JSON
-                    sshCommand remote: remoteHost, command: "docker run -dp ${puerto_imagen}:80 --name ${name_final} ${name_registry}"
-                    }
+        // stage('ssh run') {
+        //     steps {
+        //         script{
+        //             def remoteHost = readJSON text: env.REMOTE_HOST_JSON
+        //             sshCommand remote: remoteHost, command: "docker run -dp ${puerto_imagen}:80 --name ${name_final} ${name_registry}"
+        //             }
                     
-                }  
+        //         }  
             
-            }
+        //     }
         }
 
     }
