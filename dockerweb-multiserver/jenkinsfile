@@ -64,6 +64,7 @@ pipeline {
         stage('ssh download') {
             steps {
                 script{
+                    def remoteHost = readJSON text: env.REMOTE_HOST_JSON
                     sshCommand remote: remoteHost, command: "docker ps"
                     // sshCommand remote: remoteHost, command: "docker pull ${name_registry}"
                     }
