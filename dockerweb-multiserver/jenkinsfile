@@ -1,11 +1,3 @@
-def remoteHost=[:]
-remoteHost.name = 'pipe'
-remoteHost.host = '192.168.100.173'
-remoteHost.user = 'jenkinsuser'
-remoteHost.password = '123456'
-remoteHost.allowAnyHosts = true
-
-
 pipeline {
   agent any
  parameters {
@@ -21,9 +13,9 @@ pipeline {
         string(name: 'port_registry', defaultValue: '5000', description: 'port del registry')
 
     //server values
-        // string(name: 'remoteHost.host', defaultValue: '192.168.100.173', description: 'dns o ip del host')
-        // string(name: 'remoteHost.user', defaultValue: 'jenkinsuser', description: 'usuario ssh')
-        // string(name: 'remoteHost.password', defaultValue: '123456', description: 'password ssh')
+        string(name: 'remoteHost', defaultValue: '192.168.100.173', description: 'dns o ip del host')
+        string(name: 'remoteUser', defaultValue: 'jenkinsuser', description: 'usuario ssh')
+        string(name: 'remotePassword', defaultValue: '123456', description: 'password ssh')
 
 
     }
@@ -58,6 +50,14 @@ pipeline {
         stage('ssh download') {
             steps {
                 script{
+                    def remoteHost=[:]
+                    remoteHost.name = 'pipe'
+                    remoteHost.host = remoteHost
+                    remoteHost.user = remoteUser
+                    remoteHost.password = remotePassword
+                    remoteHost.allowAnyHosts = true
+
+
                     sshCommand remote: remoteHost, command: "docker ps"
                     // sshCommand remote: remote, command: "docker pull ${name_registry}"
                     }
