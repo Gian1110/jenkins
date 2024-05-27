@@ -28,34 +28,16 @@ pipeline {
 
     }
     environment {
-        name_final = "${name_container}${tag_imagen}${puerto_imagen}"
         name_registry = "${hostname_registry}:${port_registry}/${name_imagen}:${tag_imagen}"        
     }
     stages {
-          stage('stop/rm') {
-            when {
-                expression { 
-                    DOCKER_EXIST = sh(returnStdout: true, script: 'echo "$(docker ps -q --filter name=${name_final})"').trim()
-                    return  DOCKER_EXIST != '' 
-                }
-            }
-            steps {
-                script{
-                    sh ''' 
-                         docker stop ${name_final}
-                         docker rm  ${name_final}
-                    '''
-                    }
-                    
-                }                    
-                                  
-            }
            
-        stage('build') {
+        stage('build and push') {
             steps {
                 script{
                     sh ''' 
-                    docker build -t ${name_imagen}:${tag_imagen} dockerweb/
+                    docker build -t ${name_registry} dockerweb-multiserver/
+                    docker push ${name_registry}
                     '''
                     }
                     
@@ -63,31 +45,30 @@ pipeline {
                                   
             }
 
-        stage('rename and push') {
-            steps {
-                script {
-                    sh '''
-                        docker tag ${name_imagen}:${tag_imagen} ${name_registry}
-                        docker rmi ${name_imagen}:${tag_imagen}
-                        docker push ${name_registry}
- 
-                    '''
-                    }
-                }                                 
-            }
         stage('rmi') {
             steps {
                 script {
                     sh '''
-                        docker rmi ${hostname_registry}:${port_registry}/${name_imagen}:${tag_imagen}
+                        docker rmi ${name_registry}
                     '''
                     }
                 }                                 
             }
+
+        stage('ssh download') {
+            steps {
+                script{
+                    sshCommand remote: remote_host, command: "docker pull ${name_registry}"
+                    }
+                    
+                }  
+            
+            }
+
         stage('ssh stop/rm') {
             when {
                 expression { 
-                    DOCKER_EXIST = sh(returnStdout: true, script: 'echo "$(sshCommand remote: remote_host, command: "docker ps -q --filter name=${name_final}")"').trim()
+                    DOCKER_EXIST = sh(returnStdout: true, script: 'echo "$(sshCommand remote: remote_host, command: "docker ps -q --filter name=${name_container}")"').trim()
                     return  DOCKER_EXIST != '' 
                 }
             }
@@ -105,7 +86,6 @@ pipeline {
         stage('ssh run') {
             steps {
                 script{
-                    sshCommand remote: remote_host, command: "docker pull ${name_registry}"
                     sshCommand remote: remote_host, command: "docker run -dp ${puerto_imagen}:80 --name ${name_final} ${name_registry}"
                     }
                     
