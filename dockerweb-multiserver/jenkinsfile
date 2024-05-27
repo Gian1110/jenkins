@@ -20,16 +20,23 @@ pipeline {
 
     }
     environment {
-        name_registry = "${hostname_registry}:${port_registry}/${name_imagen}:${tag_imagen}"    
-        remoteHost=[:]
-        remoteHost.name = 'pipe'
-        remoteHost.host = params.remoteHost
-        remoteHost.user = params.remoteUser
-        remoteHost.password = params.remotePassword
-        remoteHost.allowAnyHosts = true    
+        name_registry = "${hostname_registry}:${port_registry}/${name_imagen}:${tag_imagen}"     
     }
     stages {
-        
+        stage('initialize'){
+            steps{
+                script{
+                def remoteHost=[:]
+                remoteHost.name = 'pipe'
+                remoteHost.host = params.remoteHost
+                remoteHost.user = params.remoteUser
+                remoteHost.password = params.remotePassword
+                remoteHost.allowAnyHosts = true   
+                }
+            }
+
+        }
+
         stage('build and push') {
             steps {
                 script{
@@ -56,8 +63,7 @@ pipeline {
         stage('ssh download') {
             steps {
                 script{
-                    sshCommand remote: remoteHost, command: "docker ps"
-                    // sshCommand remote: remote, command: "docker pull ${name_registry}"
+                    sshCommand remote: remoteHost, command: "docker pull ${name_registry}"
                     }
                     
                 }  
@@ -67,16 +73,15 @@ pipeline {
         stage('ssh stop/rm') {
             when {
                 expression { 
-                    DOCKER_EXIST = sh(returnStdout: true, script: 'echo "$(sshCommand remote: remote, command: "docker ps -q --filter name=${name_container}")"').trim()
+                    DOCKER_EXIST = sh(returnStdout: true, script: 'echo "$(sshCommand remote: remoteHost, command: "docker ps -q --filter name=${name_container}")"').trim()
                     return  DOCKER_EXIST != '' 
                 }
             }
             steps {
                 script{
-                    sh ''' 
-                         docker stop ${name_final}
-                         docker rm  ${name_final}
-                    '''
+                    sshCommand remote: remoteHost, command: "docker stop ${name_final}"
+                    sshCommand remote: remoteHost, command: "docker rm  ${name_final}"
+                
                     }
                     
                 }  
@@ -85,7 +90,7 @@ pipeline {
         stage('ssh run') {
             steps {
                 script{
-                    sshCommand remote: remote, command: "docker run -dp ${puerto_imagen}:80 --name ${name_final} ${name_registry}"
+                    sshCommand remote: remoteHost, command: "docker run -dp ${puerto_imagen}:80 --name ${name_final} ${name_registry}"
                     }
                     
                 }  
