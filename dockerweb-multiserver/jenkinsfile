@@ -20,7 +20,7 @@ pipeline {
 
     }
     environment {
-        name_registry = "${hostname_registry}:${port_registry}/${name_imagen}:${tag_imagen}"     
+        name_imagen = "${hostname_registry}:${port_registry}/${name_imagen}:${tag_imagen}"     
     }
     stages {
         stage('initialize'){
@@ -44,8 +44,8 @@ pipeline {
             steps {
                 script{
                     sh ''' 
-                    docker build -t ${name_registry} dockerweb-multiserver/
-                    docker push ${name_registry}
+                    docker build -t ${name_imagen} dockerweb-multiserver/
+                    docker push ${name_imagen}
                     '''
                     }
                     
@@ -57,7 +57,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        docker rmi ${name_registry}
+                        docker rmi ${name_imagen}
                     '''
                     }
                 }                                 
@@ -67,7 +67,7 @@ pipeline {
             steps {
                 script{
                     def remoteHost = readJSON text: env.REMOTE_HOST_JSON
-                    sshCommand remote: remoteHost, command: "docker pull ${name_registry}"
+                    sshCommand remote: remoteHost, command: "docker pull ${name_imagen}"
                     }
                     
                 }  
@@ -85,8 +85,8 @@ pipeline {
             steps {
                 script{
                     def remoteHost = readJSON text: env.REMOTE_HOST_JSON
-                    sshCommand remote: remoteHost, command: "docker stop ${name_final}"
-                    sshCommand remote: remoteHost, command: "docker rm  ${name_final}"
+                    sshCommand remote: remoteHost, command: "docker stop ${name_container}"
+                    sshCommand remote: remoteHost, command: "docker rm  ${name_container}"
                 
                     }
                     
@@ -97,7 +97,7 @@ pipeline {
             steps {
                 script{
                     def remoteHost = readJSON text: env.REMOTE_HOST_JSON
-                    sshCommand remote: remoteHost, command: "docker run -dp ${puerto_imagen}:80 --name ${name_final} ${name_registry}"
+                    sshCommand remote: remoteHost, command: "docker run -dp ${puerto_imagen}:80 --name ${name_container} ${name_imagen}"
                     }
                     
                 }  
