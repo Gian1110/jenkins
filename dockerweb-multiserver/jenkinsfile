@@ -1,11 +1,3 @@
-def remote=[:]
-remote.name = 'pipe'
-remote.host = '192.168.100.173'
-remote.user = 'jenkinsuser'
-remote.password = '123456'
-remote.allowAnyHosts = true
-
-
 pipeline {
   agent any
  parameters {
@@ -21,9 +13,9 @@ pipeline {
         string(name: 'port_registry', defaultValue: '5000', description: 'port del registry')
 
     //server values
-        string(name: 'remote.host', defaultValue: '192.168.100.173', description: 'dns o ip del host')
-        string(name: 'remote.user', defaultValue: 'jenkinsuser', description: 'usuario ssh')
-        string(name: 'remote.password', defaultValue: '123456', description: 'password ssh')
+        // string(name: 'remote.host', defaultValue: '192.168.100.173', description: 'dns o ip del host')
+        // string(name: 'remote.user', defaultValue: 'jenkinsuser', description: 'usuario ssh')
+        // string(name: 'remote.password', defaultValue: '123456', description: 'password ssh')
 
 
     }
@@ -32,32 +24,38 @@ pipeline {
     }
     stages {
            
-        stage('build and push') {
-            steps {
-                script{
-                    sh ''' 
-                    docker build -t ${name_registry} dockerweb-multiserver/
-                    docker push ${name_registry}
-                    '''
-                    }
+        // stage('build and push') {
+        //     steps {
+        //         script{
+        //             sh ''' 
+        //             docker build -t ${name_registry} dockerweb-multiserver/
+        //             docker push ${name_registry}
+        //             '''
+        //             }
                     
-                }                    
+        //         }                    
                                   
-            }
+        //     }
 
-        stage('rmi') {
-            steps {
-                script {
-                    sh '''
-                        docker rmi ${name_registry}
-                    '''
-                    }
-                }                                 
-            }
+        // stage('rmi') {
+        //     steps {
+        //         script {
+        //             sh '''
+        //                 docker rmi ${name_registry}
+        //             '''
+        //             }
+        //         }                                 
+        //     }
 
         stage('ssh download') {
             steps {
                 script{
+                    def remote=[:]
+                    remote.name = 'pipe'
+                    remote.host = '192.168.100.173'
+                    remote.user = 'jenkinsuser'
+                    remote.password = '123456'
+                    remote.allowAnyHosts = true
                     sshCommand remote: remote, command: "docker ps"
                     // sshCommand remote: remote, command: "docker pull ${name_registry}"
                     }
