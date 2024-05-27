@@ -26,12 +26,14 @@ pipeline {
         stage('initialize'){
             steps{
                 script{
-                def remoteHost=[:]
-                remoteHost.name = 'pipe'
-                remoteHost.host = params.remoteHost
-                remoteHost.user = params.remoteUser
-                remoteHost.password = params.remotePassword
-                remoteHost.allowAnyHosts = true
+                remoteHost=[
+                    name: 'pipe',
+                    host: params.remoteHost,
+                    user: params.remoteUser,
+                    password: params.remotePassword,
+                    allowAnyHosts = true,
+                ]
+                
                 env.REMOTE_HOST_JSON = groovy.json.JsonOutput.toJson(remoteHost)   
                 }
             }
