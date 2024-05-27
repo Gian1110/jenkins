@@ -31,7 +31,8 @@ pipeline {
                 remoteHost.host = params.remoteHost
                 remoteHost.user = params.remoteUser
                 remoteHost.password = params.remotePassword
-                remoteHost.allowAnyHosts = true   
+                remoteHost.allowAnyHosts = true
+                env.REMOTE_HOST_JSON = groovy.json.JsonOutput.toJson(remoteHost)   
                 }
             }
 
