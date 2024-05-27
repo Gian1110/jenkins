@@ -1,6 +1,6 @@
-def remoteHost=[:]
-remoteHost.name = 'pipe'
-remoteHost.allowAnyHosts = true
+def remote=[:]
+remote.name = 'pipe'
+remote.allowAnyHosts = true
 
 
 pipeline {
@@ -18,9 +18,9 @@ pipeline {
         string(name: 'port_registry', defaultValue: '5000', description: 'port del registry')
 
     //server values
-        string(name: 'remoteHost.host', defaultValue: '192.168.100.173', description: 'dns o ip del host')
-        string(name: 'remoteHost.user', defaultValue: 'jenkinsuser', description: 'usuario ssh')
-        string(name: 'remoteHost.password', defaultValue: '123456', description: 'password ssh')
+        string(name: 'remote.host', defaultValue: '192.168.100.173', description: 'dns o ip del host')
+        string(name: 'remote.user', defaultValue: 'jenkinsuser', description: 'usuario ssh')
+        string(name: 'remote.password', defaultValue: '123456', description: 'password ssh')
 
 
     }
@@ -55,7 +55,7 @@ pipeline {
         stage('ssh download') {
             steps {
                 script{
-                    sshCommand remote: remoteHost, command: "docker ps"
+                    sshCommand remote: remote, command: "docker ps"
                     // sshCommand remote: remote, command: "docker pull ${name_registry}"
                     }
                     
