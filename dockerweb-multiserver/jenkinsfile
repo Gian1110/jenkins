@@ -58,7 +58,7 @@ pipeline {
         stage('ssh download') {
             steps {
                 script{
-                    sshCommand remote: remote_host, command: "docker ps"
+                    sshCommand remote_host: remote_host, command: "docker ps"
                     // sshCommand remote: remote_host, command: "docker pull ${name_registry}"
                     }
                     
