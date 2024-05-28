@@ -2,25 +2,24 @@ pipeline {
   agent any
  parameters {
     
-    // container values
-        string(name: 'name_container', defaultValue: 'proyecto-qa', description: 'nombre del docker')
-        string(name: 'name_imagen', defaultValue: 'iproyecto-qa', description: 'nombre de la imagen')
-        string(name: 'tag_imagen', defaultValue: 'latest', description: 'etiqueta de la imagen')
-        string(name: 'puerto_imagen', defaultValue: '81', description: 'puerto a publicar')
-    
-    //registry values
-        string(name: 'hostname_registry', defaultValue: '192.168.100.173', description: 'nombre del host donde esta el registry')
-        string(name: 'port_registry', defaultValue: '5000', description: 'port del registry')
-
     //server values
         string(name: 'remoteHost', defaultValue: '192.168.100.173', description: 'dns o ip del host')
-        string(name: 'remoteUser', defaultValue: 'jenkinsuser', description: 'usuario ssh')
-        string(name: 'remotePassword', defaultValue: '123456', description: 'password ssh')
-
-
+        
     }
     environment {
-        name_imagen = "${hostname_registry}:${port_registry}/${name_imagen}:${tag_imagen}"     
+        //registry values
+        hostname_registry = '192.168.100.173'
+        port_registry = '5000'
+
+        // container values
+        name_container = 'proyecto-qa'
+        name_imagen = 'iproyecto-qa'
+        tag_imagen = 'latest'
+        puerto_imagen = '81'
+        name_imagen = "${hostname_registry}:${port_registry}/${name_imagen}:${tag_imagen}"   
+
+        remoteUser', defaultValue: 'jenkinsuser', description: 'usuario ssh')
+        string(name: 'remotePassword', defaultValue: '123456', description: 'password ssh')
     }
     stages {
         stage('initialize'){
