@@ -18,8 +18,6 @@ pipeline {
         puerto_imagen = '81'
         name_imagen = "${hostname_registry}:${port_registry}/${name_imagen_origen}:${tag_imagen}"   
 
-        remoteUser = 'jenkinsuser'
-        remotePassword = '123456'
     }
     stages {
         stage('initialize'){
@@ -28,8 +26,8 @@ pipeline {
                 remoteHost = [
                     name: 'pipe',
                     host: params.remoteHost,
-                    user: remoteUser,
-                    password: remotePassword,
+                    user: 'jenkinsuser',
+                    password: '123456',
                     allowAnyHosts: true,
                 ]
                 
