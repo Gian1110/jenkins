@@ -13,10 +13,10 @@ pipeline {
 
         // container values
         name_container = 'proyecto-qa'
-        name_imagen = 'iproyecto-qa'
+        name_imagen_origen = 'iproyecto-qa'
         tag_imagen = 'latest'
         puerto_imagen = '81'
-        name_imagen = "${hostname_registry}:${port_registry}/${name_imagen}:${tag_imagen}"   
+        name_imagen = "${hostname_registry}:${port_registry}/${name_imagen_origen}:${tag_imagen}"   
 
         remoteUser = 'jenkinsuser'
         remotePassword = '123456'
