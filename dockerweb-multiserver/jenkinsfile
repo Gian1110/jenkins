@@ -28,8 +28,8 @@ pipeline {
                 remoteHost = [
                     name: 'pipe',
                     host: params.remoteHost,
-                    user: params.remoteUser,
-                    password: params.remotePassword,
+                    user: remoteUser,
+                    password: remotePassword,
                     allowAnyHosts: true,
                 ]
                 
