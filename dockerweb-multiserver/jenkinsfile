@@ -18,8 +18,8 @@ pipeline {
         puerto_imagen = '81'
         name_imagen = "${hostname_registry}:${port_registry}/${name_imagen}:${tag_imagen}"   
 
-        remoteUser', defaultValue: 'jenkinsuser', description: 'usuario ssh')
-        string(name: 'remotePassword', defaultValue: '123456', description: 'password ssh')
+        remoteUser = 'jenkinsuser'
+        remotePassword = '123456'
     }
     stages {
         stage('initialize'){
