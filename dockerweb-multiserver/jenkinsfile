@@ -25,6 +25,7 @@ pipeline {
             steps{
                 script{
                     def remoteHost = dockerb.initial(params.remoteHost);
+                    echo "${remoteHost}"
                     env.REMOTE_HOST_JSON = groovy.json.JsonOutput.toJson(remoteHost);
                 }
             }
@@ -59,6 +60,7 @@ pipeline {
                 script{
         
                     def remoteHost = readJSON text: env.REMOTE_HOST_JSON
+                    echo "${remoteHost}"
                     sshCommand remote: remoteHost, command: "docker pull ${name_imagen}"
                    
                     }
