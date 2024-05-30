@@ -4,6 +4,7 @@ pipeline {
     
     //server values
         string(name: 'remoteHost', defaultValue: '192.168.100.173', description: 'dns o ip del host')
+        string(name: 'version_imagen', defaultValue: 'latest', description: 'version de la applicacion')
         
     }
     environment {
@@ -14,9 +15,8 @@ pipeline {
         // container values
         name_container = 'proyecto-qa'
         name_imagen_origen = 'iproyecto-qa'
-        tag_imagen = 'latest'
         puerto_imagen = '81'
-        name_imagen = "${hostname_registry}:${port_registry}/${name_imagen_origen}:${tag_imagen}"   
+        name_imagen = "${hostname_registry}:${port_registry}/${name_imagen_origen}:${version_imagen}"   
 
     }
     stages {
