@@ -83,7 +83,7 @@ pipeline {
                 expression { 
 
                     def remoteHost = readJSON text: env.REMOTE_HOST_JSON
-                    DOCKER_EXIST = sh(returnStdout: true, script:"sshCommand remote: remoteHost, command: docker ps -q --filter name=${name_container}" ).trim()
+                    DOCKER_EXIST = sh(returnStdout: true, script:"""sshCommand remote: ${remoteHost}, command: 'docker ps -q --filter name=${name_container}'""" ).trim()
                     return  DOCKER_EXIST != '' 
                 }
             }
