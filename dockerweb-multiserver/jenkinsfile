@@ -68,11 +68,10 @@ pipeline {
         stage('ssh download') {
             steps {
                 script{
+        
                     def remoteHost = readJSON text: env.REMOTE_HOST_JSON
                     sshCommand remote: remoteHost, command: "docker pull ${name_imagen}"
-    
-                    def salida = sshCommand remote: remoteHost, command: 'docker ps -q --filter name=${name_container}'
-                    echo "${salida}"
+                   
                     }
                     
                 }  
@@ -82,8 +81,11 @@ pipeline {
         stage('ssh stop/rm') {
             when {
                 expression { 
+
                     def remoteHost = readJSON text: env.REMOTE_HOST_JSON
-                    DOCKER_EXIST = sh(returnStdout: true, script: 'echo "$(sshCommand remote: remoteHost, command: "docker ps -q --filter name=${name_container}")"').trim()
+                    def salida = sshCommand remote: remoteHost, command: "docker ps -q --filter name=${name_container}"
+                    echo "${salida}"
+                    DOCKER_EXIST = sh(returnStdout: true, script: salida).trim()
                     return  DOCKER_EXIST != '' 
                 }
             }
