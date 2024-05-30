@@ -27,6 +27,7 @@ pipeline {
                     def remoteHost = dockerb.initial(params.remoteHost);
                     echo "${remoteHost}"
                     env.REMOTE_HOST_JSON = groovy.json.JsonOutput.toJson(remoteHost);
+                    echo "remote_host_json: ${env.REMOTE_HOST_JSON}"
                 }
             }
 
