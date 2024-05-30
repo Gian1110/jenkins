@@ -23,15 +23,18 @@ pipeline {
         stage('initialize'){
             steps{
                 script{
-                remoteHost = [
-                    name: 'pipe',
-                    host: params.remoteHost,
-                    user: 'jenkinsuser',
-                    password: '123456',
-                    allowAnyHosts: true,
-                ]
+                    withCredentials([usernamePassword(credentialsId: 'ssh-id', usernameVariable: 'sshUser', passwordVariable: 'sshpass')]){
+                        
+                        remoteHost = [
+                            name: "pipe",
+                            host: params.remoteHost,
+                            user: "${sshUser}",
+                            password: "${sshpass}",
+                            allowAnyHosts: true,
+                        ]
                 
-                env.REMOTE_HOST_JSON = groovy.json.JsonOutput.toJson(remoteHost)   
+                        env.REMOTE_HOST_JSON = groovy.json.JsonOutput.toJson(remoteHost)
+                    }   
                 }
             }
 
