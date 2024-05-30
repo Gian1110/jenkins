@@ -23,6 +23,8 @@ pipeline {
         stage('initialize'){
             steps{
                 script{
+                    def sshId = ConfigJenkins.getSshCredentialId();
+                    echo "${sshId}"
                     withCredentials([usernamePassword(credentialsId: 'ssh-id', usernameVariable: 'sshUser', passwordVariable: 'sshpass')]){
                         
                         remoteHost = [
@@ -33,7 +35,7 @@ pipeline {
                             allowAnyHosts: true,
                         ]
                 
-                        env.REMOTE_HOST_JSON = groovy.json.JsonOutput.toJson(remoteHost)
+                        env.REMOTE_HOST_JSON = groovy.json.JsonOutput.toJson(remoteHost);
                     }   
                 }
             }
