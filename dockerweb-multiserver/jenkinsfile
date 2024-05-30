@@ -1,4 +1,4 @@
-@Libreary('jenkins-libs')
+@Library('jenkins-libs')
 pipeline {
   agent any
  parameters {
