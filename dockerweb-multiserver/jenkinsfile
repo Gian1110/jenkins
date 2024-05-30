@@ -25,8 +25,7 @@ pipeline {
             steps{
                 script{
                     def sshId = ConfigJenkins.getSshCredentialId();
-                    echo "${sshId}"
-                    withCredentials([usernamePassword(credentialsId: 'ssh-id', usernameVariable: 'sshUser', passwordVariable: 'sshpass')]){
+                    withCredentials([usernamePassword(credentialsId: sshId, usernameVariable: 'sshUser', passwordVariable: 'sshpass')]){
                         
                         remoteHost = [
                             name: "pipe",
@@ -71,6 +70,8 @@ pipeline {
                 script{
                     def remoteHost = readJSON text: env.REMOTE_HOST_JSON
                     sshCommand remote: remoteHost, command: "docker pull ${name_imagen}"
+                    echo "salida del when stop/rm "
+                    echo "$(sshCommand remote: remoteHost, command: "docker ps -q --filter name=${name_container}")"
                     }
                     
                 }  
