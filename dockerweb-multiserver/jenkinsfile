@@ -51,9 +51,7 @@ pipeline {
                         def parameterMap = [:]
                         parameterMap["remoteHost"] = "${params.remoteHost}"
                         parameterMap["nameImagen"] = "${name_imagen}"
-                        echo "${parameterMap}"
                         def salida = dockerb.dockerpull(parameterMap);      
-                        echo "${salida}"
                     }
                     
                 }  
