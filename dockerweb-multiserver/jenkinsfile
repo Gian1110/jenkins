@@ -24,7 +24,8 @@ pipeline {
         stage('initialize'){
             steps{
                 script{
-                    dockerb.initial(params.remoteHost)
+                    def remoteHost = dockerb.initial(params.remoteHost);
+                    env.REMOTE_HOST_JSON = groovy.json.JsonOutput.toJson(remoteHost);
                 }
             }
 
