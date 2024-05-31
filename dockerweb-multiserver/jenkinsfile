@@ -52,18 +52,7 @@ pipeline {
                         // parameterMap["remoteHost"] = "${params.remoteHost}"
                         // parameterMap["nameImagen"] = "${name_imagen}"
                         // def salida = dockerb.dockerpull(parameterMap);
-                        def sshId = ConfigJenkins.getSshCredentialId();
-                        withCredentials([usernamePassword(credentialsId: sshId, usernameVariable: 'sshUser', passwordVariable: 'sshpass')]){
-                        
-                            remoteH = [
-                            name: "pipe",
-                            host: params.remoteHost,
-                            user: "${sshUser}",
-                            password: "${sshpass}",
-                            allowAnyHosts: true
-                        ]
-                
-                        }
+                        def remoteH = dockerb.initial(params.remoteHost);
 
                         sshCommand remote: remoteH, command: "docker ps"      
                     }
