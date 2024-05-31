@@ -58,7 +58,7 @@ pipeline {
                         withCredentials([usernamePassword(credentialsId: sshId, usernameVariable: 'sshUser', passwordVariable: 'sshpass')]){
                         
                             remote["name" : "pipe",
-                            "host":"${params.remoteHost}",
+                            "host":"${remoteHost}",
                             "user" : "${sshUser}",
                             "password" : "${sshpass}",
                             "allowAnyHosts" :  true] 
