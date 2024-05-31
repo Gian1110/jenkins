@@ -64,14 +64,14 @@ pipeline {
                         // ]
                 
                         // }
-                        remoteHost = [
+                        def remoteH = [
                             name: "pipe",
                             host: params.remoteHost,
                             user: "jenkinsuser",
                             password: "123456",
                             allowAnyHosts: true
                         ]
-                        sshCommand remote: "${remoteHost}", command: "docker ps"      
+                        sshCommand remote: "${remoteH}", command: "docker ps"      
                     }
                     
                 }  
