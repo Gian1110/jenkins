@@ -48,10 +48,24 @@ pipeline {
         stage('ssh download') {
             steps {
                 script{
-                        def parameterMap = [:]
-                        parameterMap["remoteHost"] = "${params.remoteHost}"
-                        parameterMap["nameImagen"] = "${name_imagen}"
-                        def salida = dockerb.dockerpull(parameterMap);      
+                        // def parameterMap = [:]
+                        // parameterMap["remoteHost"] = "${params.remoteHost}"
+                        // parameterMap["nameImagen"] = "${name_imagen}"
+                        // def salida = dockerb.dockerpull(parameterMap);
+                        def sshId = ConfigJenkins.getSshCredentialId();
+                        def remote = [:]
+
+                        withCredentials([usernamePassword(credentialsId: sshId, usernameVariable: 'sshUser', passwordVariable: 'sshpass')]){
+                        
+                            remote["name" : "pipe",
+                            "host":"${params.remoteHost}",
+                            "user" : "${sshUser}",
+                            "password" : "${sshpass}",
+                            "allowAnyHosts" :  true] 
+                
+                        }
+
+                        sshCommand remote: "${remote}", command: "docker ps"      
                     }
                     
                 }  
