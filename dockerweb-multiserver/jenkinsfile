@@ -53,7 +53,7 @@ pipeline {
                         // parameterMap["nameImagen"] = "${name_imagen}"
                         // def salida = dockerb.dockerpull(parameterMap);
                         def remoteH = dockerb.initial(params.remoteHost);
-
+                        echo "${remoteH}"
                         sshCommand remote: remoteH, command: "docker ps"      
                     }
                     
