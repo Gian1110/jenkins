@@ -55,16 +55,17 @@ pipeline {
                         def sshId = ConfigJenkins.getSshCredentialId();
                         withCredentials([usernamePassword(credentialsId: sshId, usernameVariable: 'sshUser', passwordVariable: 'sshpass')]){
                         
-                            def remote[:]
-                            remote["name"] = "pipe"
-                            remote["host"] = "${remoteHost}"
-                            remote["user"] = "${sshUser}"
-                            remote["password"] = "${sshpass}"
-                            remote["allowAnyHosts"] =   true 
+                            remoteHost = [
+                            name: "pipe",
+                            host: params.remoteHost,
+                            user: "${sshUser}",
+                            password: "${sshpass}",
+                            allowAnyHosts: true,
+                        ]
                 
                         }
 
-                        sshCommand remote: "${remote}", command: "docker ps"      
+                        sshCommand remote: "${remoteHost}", command: "docker ps"      
                     }
                     
                 }  
