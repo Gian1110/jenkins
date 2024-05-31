@@ -48,13 +48,11 @@ pipeline {
         stage('ssh download') {
             steps {
                 script{
-                        // def parameterMap = [:]
-                        // parameterMap["remoteHost"] = "${params.remoteHost}"
-                        // parameterMap["nameImagen"] = "${name_imagen}"
-                        // def salida = dockerb.dockerpull(parameterMap);
-                        def remoteH = dockerb.initial(params.remoteHost);
-                        echo "${remoteH}"
-                        sshCommand remote: remoteH, command: "docker ps"      
+                        def parameterMap = [:]
+                        parameterMap["remoteHost"] = "${params.remoteHost}"
+                        parameterMap["nameImagen"] = "${name_imagen}"
+                        dockerb.dockerpull(parameterMap);
+                              
                     }
                     
                 }  
