@@ -65,7 +65,7 @@ pipeline {
                     def parameterMap = [:]
                     parameterMap["remoteHost"] = params.remoteHost
                     parameterMap["nameContainer"] = name_container
-                    dockerb.dockerPull(parameterMap);
+                    dockerb.dockerStopRm(parameterMap);
                     }
                     
                 }  
