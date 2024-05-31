@@ -45,19 +45,19 @@ pipeline {
         //         }                                 
         //     }
 
-        stage('ssh download') {
-            steps {
-                script{
-                        def parameterMap = [:]
-                        parameterMap["remoteHost"] = "${params.remoteHost}"
-                        parameterMap["nameImagen"] = "${name_imagen}"
-                        dockerb.dockerpull(parameterMap);
-                              
-                    }
-                    
-                }  
-            
-            }
+            stage('ssh download') {
+                steps {
+                    script{
+                            def parameterMap = [:]
+                            parameterMap["remoteHost"] = params.remoteHost
+                            parameterMap["nameImagen"] = name_imagen
+                            dockerb.dockerpull(parameterMap);
+                                
+                        }
+                        
+                    }  
+                
+                }
 
         // stage('ssh stop/rm') {
         //     when {
