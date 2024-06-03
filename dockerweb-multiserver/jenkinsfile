@@ -28,7 +28,7 @@ pipeline {
         stage('build and push') {
             steps {
                 script{
-                    sh "docker build -t ${name_imagen} dockerweb-multiserver/" 
+                    sh 'docker build -t 192.168.100.173:5000/proyecto-qa:latest dockerweb-multiserver/. '
                     echo "pasa build"
                     sh "docker push ${name_imagen}"
                     echo "pasa push"
