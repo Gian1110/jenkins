@@ -24,29 +24,27 @@ pipeline {
     }
     stages {
 
-
         stage('build and push') {
             steps {
                 script{
-                    sh 'docker build -t 192.168.100.173:5000/proyecto-qa:latest dockerweb-multiserver/. '
-                    echo "pasa build"
-                    sh "docker push ${name_imagen}"
-                    echo "pasa push"
-                    sh "docker rmi ${name_imagen}"
-                    
+                    sh ''' 
+                    docker build -t ${name_imagen} dockerweb-multiserver/
+                    docker push ${name_imagen}
+                    docker rmi ${name_imagen}
+                    '''
                     }
                     
                 }                    
                                   
             }
 
-        stage('ssh pull') {
+    stage('ssh pull') {
             steps {
                 script{
                         def parameterMap = [:]
                         parameterMap["remoteHost"] = params.remoteHost
                         parameterMap["nameContainer"] = name_container
-                        parameterMap["versionImagen"] = imagenver
+                        parameterMap["versionImagen"] = version_imagen
                         dockerb.dockerPull(parameterMap);
                             
                     }
@@ -55,20 +53,20 @@ pipeline {
             
             }
 
-        stage('ssh rm and run') {
-            steps {
-                script{
+        // stage('ssh rm and run') {
+        //     steps {
+        //         script{
 
-                    def parameterMap = [:]
-                    parameterMap["remoteHost"] = params.remoteHost
-                    parameterMap["nameContainer"] = name_container
-                    parameterMap["puertoContainer"] = puerto_imagen
-                    dockerb.dockerRmRun(parameterMap);
+        //             def parameterMap = [:]
+        //             parameterMap["remoteHost"] = params.remoteHost
+        //             parameterMap["nameContainer"] = name_container
+        //             parameterMap["puertoContainer"] = puerto_imagen
+        //             dockerb.dockerRmRun(parameterMap);
                     
-                    }
-                }  
+        //             }
+        //         }  
             
-            }
+        //     }
         }
 
     }
