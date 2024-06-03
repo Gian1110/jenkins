@@ -23,10 +23,9 @@ pipeline {
                         parameterMap["containerName"] = name_container
                         parameterMap["imagenVersion"] = version_imagen
                         dockerb.dockerBuildPush(parametersMap);
-                }                    
-                                  
+                }                                     
             }
-
+        }
         stage('ssh pull') {
             steps {
                 script{
@@ -40,7 +39,7 @@ pipeline {
                     
                 }  
             
-            }
+        }
 
         stage('ssh rm and run') {
             steps {
@@ -56,8 +55,7 @@ pipeline {
                     }
                 }  
             
-            }
         }
+    }
 
     }
-}
