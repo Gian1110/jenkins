@@ -9,15 +9,9 @@ pipeline {
         
     }
     environment {
-        //registry values
-        hostname_registry = '192.168.100.173'
-        port_registry = '5000'
-
         // container values
         name_container = 'proyecto-qa'
-        name_imagen_origen = 'iproyecto-qa'
-        puerto_imagen = '81'
-        name_imagen = "${hostname_registry}:${port_registry}/${name_imagen_origen}:${version_imagen}"   
+        puerto_imagen = '81'  
 
     }
     stages {
@@ -54,9 +48,9 @@ pipeline {
 
                     def parameterMap = [:]
                     parameterMap["remoteHost"] = params.remoteHost
-                    parameterMap["nameContainer"] = name_container
-                    parameterMap["nameImagen"] = name_imagen
-                    parameterMap["puertoContainer"] = puerto_imagen
+                    parameterMap["containerName"] = name_container
+                    parameterMap["imagenVersion"] = version_imagen
+                    parameterMap["containerPuert"] = puerto_imagen
                     dockerb.dockerRmRun(parameterMap);
                     
                     }
