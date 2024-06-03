@@ -25,13 +25,10 @@ pipeline {
         stage('build and push') {
             steps {
                 script{
-                    sh ''' 
-                    docker build -t ${name_imagen} dockerweb-multiserver/
-                    docker push ${name_imagen}
-                    docker rmi ${name_imagen}
-                    '''
-                    }
-                    
+                        def parametersMap = [:]
+                        parameterMap["containerName"] = name_container
+                        parameterMap["imagenVersion"] = version_imagen
+                        dockerb.dockerBuildPush(parametersMap);
                 }                    
                                   
             }
@@ -41,7 +38,7 @@ pipeline {
                 script{
                         def parameterMap = [:]
                         parameterMap["remoteHost"] = params.remoteHost
-                        parameterMap["ContainerName"] = name_container
+                        parameterMap["containerName"] = name_container
                         parameterMap["imagenVersion"] = version_imagen
                         dockerb.dockerPull(parameterMap);
                             
