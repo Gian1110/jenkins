@@ -37,11 +37,11 @@ pipeline {
         stage('build and push') {
             steps {
                 script{
-                    sh ''' 
+                    sh """ 
                     docker build -t ${name_imagen} dockerweb-multiserver/
                     docker push ${name_imagen}
                     docker rmi ${name_imagen}
-                    '''
+                    """
                     }
                     
                 }                    
