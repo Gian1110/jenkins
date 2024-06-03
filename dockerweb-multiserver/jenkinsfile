@@ -50,21 +50,7 @@ pipeline {
             
             }
 
-        stage('ssh rm') {
-            steps {
-                script{
-
-                    def parameterMap = [:]
-                    parameterMap["remoteHost"] = params.remoteHost
-                    parameterMap["nameContainer"] = name_container
-                    dockerb.dockerStopRm(parameterMap);
-
-                    }
-                }  
-            
-            }
-
-        stage('ssh run') {
+        stage('ssh rm and run') {
             steps {
                 script{
 
@@ -73,7 +59,7 @@ pipeline {
                     parameterMap["nameContainer"] = name_container
                     parameterMap["nameImagen"] = name_imagen
                     parameterMap["puertoContainer"] = puerto_imagen
-                    dockerb.dockerRun(parameterMap);
+                    dockerb.dockerRmRun(parameterMap);
                     
                     }
                 }  
