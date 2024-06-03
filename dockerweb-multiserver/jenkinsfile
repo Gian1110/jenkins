@@ -28,11 +28,12 @@ pipeline {
         stage('build and push') {
             steps {
                 script{
-                    sh ''' 
-                    docker build -t ${name_imagen} dockerweb-multiserver/
-                    docker push ${name_imagen}
-                    docker rmi ${name_imagen}
-                    '''
+                    sh "docker build -t ${name_imagen} dockerweb-multiserver/" 
+                    echo "pasa build"
+                    sh "docker push ${name_imagen}"
+                    echo "pasa push"
+                    sh "docker rmi ${name_imagen}"
+                    
                     }
                     
                 }                    
