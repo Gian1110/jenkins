@@ -73,7 +73,7 @@ pipeline {
                     parameterMap["nameContainer"] = name_container
                     parameterMap["nameImagen"] = name_imagen
                     parameterMap["puertoContainer"] = puerto_imagen
-                    dockerb.dockerStopRm(parameterMap);
+                    dockerb.dockerRun(parameterMap);
                     
                     }
                 }  
