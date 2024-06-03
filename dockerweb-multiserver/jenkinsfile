@@ -24,49 +24,35 @@ pipeline {
     }
     stages {
 
-        stage('build and push') {
+        stage('build') {
             steps {
                 script{
                     sh ''' 
                     docker build -t ${name_imagen} dockerweb-multiserver/
+                    '''
+                    }
+                }                                     
+            }
+
+        stage('push') {
+            steps {
+                script{
+                    sh '''  
                     docker push ${name_imagen}
+                    '''
+                    }
+                }                                     
+            }
+
+         stage('rmi') {
+            steps {
+                script{
+                    sh ''' 
                     docker rmi ${name_imagen}
                     '''
                     }
-                    
-                }                    
-                                  
+                }                                     
             }
-
-    // stage('ssh pull') {
-    //         steps {
-    //             script{
-    //                     def parameterMap = [:]
-    //                     parameterMap["remoteHost"] = params.remoteHost
-    //                     parameterMap["nameContainer"] = name_container
-    //                     parameterMap["versionImagen"] = version_imagen
-    //                     dockerb.dockerPull(parameterMap);
-                            
-    //                 }
-                    
-    //             }  
-            
-    //         }
-
-        // stage('ssh rm and run') {
-        //     steps {
-        //         script{
-
-        //             def parameterMap = [:]
-        //             parameterMap["remoteHost"] = params.remoteHost
-        //             parameterMap["nameContainer"] = name_container
-        //             parameterMap["puertoContainer"] = puerto_imagen
-        //             dockerb.dockerRmRun(parameterMap);
-                    
-        //             }
-        //         }  
-            
-        //     }
         }
 
     }
