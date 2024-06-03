@@ -34,13 +34,23 @@ pipeline {
         //         }                    
                                   
         //     }
-        stage('build and push') {
+        stage('build') {
             steps {
                 script{
                     def nameImagen = ConfigJenkins.getImagenRegistry(name_container,imagenver)
                     sh "docker build -t ${nameImagen} dockerweb-multiserver/"
+    
+                    }
+                    
+                }                    
+                                  
+            }
+            stage('push') {
+            steps {
+                script{
+                    def nameImagen = ConfigJenkins.getImagenRegistry(name_container,imagenver)
                     sh "docker push ${nameImagen}"
-                    sh "docker rmi ${nameImagen}"
+                 
     
                     }
                     
@@ -48,6 +58,18 @@ pipeline {
                                   
             }
 
+            stage('rmi') {
+            steps {
+                script{
+                    def nameImagen = ConfigJenkins.getImagenRegistry(name_container,imagenver)
+                   
+                    sh "docker rmi ${nameImagen}"
+    
+                    }
+                    
+                }                    
+                                  
+            }
         stage('ssh pull') {
             steps {
                 script{
