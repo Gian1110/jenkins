@@ -5,52 +5,34 @@ pipeline {
     
     //server values
         string(name: 'remoteHost', defaultValue: '192.168.100.173', description: 'dns o ip del host')
-        string(name: 'imagenver', defaultValue: 'latest', description: 'version de la applicacion')
+        string(name: 'version_imagen', defaultValue: 'latest', description: 'version de la applicacion')
         
     }
     environment {
         //path app
         path="./dockerweb-multiserver"
-      
+        //registry values
+        hostname_registry = '192.168.100.173'
+        port_registry = '5000'
 
         // container values
         name_container = 'proyecto-qa'
         name_imagen_origen = 'iproyecto-qa'
         puerto_imagen = '81'
-        name_imagen = "192.168.100.173:5000/proyecto-qa:latest"   
+        name_imagen = "${hostname_registry}:${port_registry}/${name_imagen_origen}:${version_imagen}"   
 
     }
     stages {
 
-        // stage('build and push') {
-        //     steps {
-        //         script{
-        //             def parameterMap = [:]
-        //             parameterMap["path"] = path
-        //             parameterMap["nameContainer"] = name_container
-        //             dockerBuildandPush(parameterMap);
-        //             }
-                    
-        //         }                    
-                                  
-        //     }
-        stage('build') {
+
+        stage('build and push') {
             steps {
                 script{
-                    sh " 
+                    sh ''' 
                     docker build -t ${name_imagen} dockerweb-multiserver/
-                    "
-                    }
-                    
-                }                    
-                                  
-            }
-             stage(' push') {
-            steps {
-                script{
-                    sh "
                     docker push ${name_imagen}
-                    "
+                    docker rmi ${name_imagen}
+                    '''
                     }
                     
                 }                    
