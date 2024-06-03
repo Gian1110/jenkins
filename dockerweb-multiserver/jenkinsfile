@@ -5,23 +5,35 @@ pipeline {
     
     //server values
         string(name: 'remoteHost', defaultValue: '192.168.100.173', description: 'dns o ip del host')
-        string(name: 'version_imagen', defaultValue: 'latest', description: 'version de la applicacion')
+        string(name: 'imagenver', defaultValue: 'latest', description: 'version de la applicacion')
         
     }
     environment {
-        //registry values
-        hostname_registry = '192.168.100.173'
-        port_registry = '5000'
+        //path app
+        path="./dockerweb-multiserver"
+      
 
         // container values
         name_container = 'proyecto-qa'
         name_imagen_origen = 'iproyecto-qa'
         puerto_imagen = '81'
-        name_imagen = "${hostname_registry}:${port_registry}/${name_imagen_origen}:${version_imagen}"   
+        name_imagen = "192.168.100.173:5000/${name_imagen_origen}:${imagenver}"   
 
     }
     stages {
 
+        // stage('build and push') {
+        //     steps {
+        //         script{
+        //             def parameterMap = [:]
+        //             parameterMap["path"] = path
+        //             parameterMap["nameContainer"] = name_container
+        //             dockerBuildandPush(parameterMap);
+        //             }
+                    
+        //         }                    
+                                  
+        //     }
         stage('build and push') {
             steps {
                 script{
@@ -41,7 +53,8 @@ pipeline {
                 script{
                         def parameterMap = [:]
                         parameterMap["remoteHost"] = params.remoteHost
-                        parameterMap["nameImagen"] = name_imagen
+                        parameterMap["nameContainer"] = name_container
+                        parameterMap["versionImagen"] = imagenver
                         dockerb.dockerPull(parameterMap);
                             
                     }
@@ -57,7 +70,6 @@ pipeline {
                     def parameterMap = [:]
                     parameterMap["remoteHost"] = params.remoteHost
                     parameterMap["nameContainer"] = name_container
-                    parameterMap["nameImagen"] = name_imagen
                     parameterMap["puertoContainer"] = puerto_imagen
                     dockerb.dockerRmRun(parameterMap);
                     
