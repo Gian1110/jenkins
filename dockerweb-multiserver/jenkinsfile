@@ -27,9 +27,7 @@ pipeline {
         stage('build') {
             steps {
                 script{
-                    sh ''' 
-                    docker build -t ${name_imagen} dockerweb-multiserver/
-                    '''
+                    sh "docker build -t ${name_imagen} dockerweb-multiserver/"
                     }
                 }                                     
             }
