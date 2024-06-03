@@ -9,8 +9,6 @@ pipeline {
         
     }
     environment {
-        //path app
-        path="./dockerweb-multiserver"
         //registry values
         hostname_registry = '192.168.100.173'
         port_registry = '5000'
@@ -28,13 +26,45 @@ pipeline {
             steps {
                 script{
                     sh ''' 
-                    docker ps
-                    
+                    docker build -t ${name_imagen} dockerweb-multiserver/
+                    docker push ${name_imagen}
+                    docker rmi ${name_imagen}
                     '''
                     }
-                }                                     
+                    
+                }                    
+                                  
             }
 
+        stage('ssh pull') {
+            steps {
+                script{
+                        def parameterMap = [:]
+                        parameterMap["remoteHost"] = params.remoteHost
+                        parameterMap["nameImagen"] = name_imagen
+                        dockerb.dockerPull(parameterMap);
+                            
+                    }
+                    
+                }  
+            
+            }
+
+        stage('ssh rm and run') {
+            steps {
+                script{
+
+                    def parameterMap = [:]
+                    parameterMap["remoteHost"] = params.remoteHost
+                    parameterMap["nameContainer"] = name_container
+                    parameterMap["nameImagen"] = name_imagen
+                    parameterMap["puertoContainer"] = puerto_imagen
+                    dockerb.dockerRun(parameterMap);
+                    
+                    }
+                }  
+            
+            }
         }
 
     }
