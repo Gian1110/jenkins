@@ -24,33 +24,17 @@ pipeline {
     }
     stages {
 
-        stage('build') {
-            steps {
-                script{
-                    sh "docker build -t ${name_imagen} dockerweb-multiserver/"
-                    }
-                }                                     
-            }
-
-        stage('push') {
-            steps {
-                script{
-                    sh '''  
-                    docker push ${name_imagen}
-                    '''
-                    }
-                }                                     
-            }
-
-         stage('rmi') {
+        stage('build and push') {
             steps {
                 script{
                     sh ''' 
-                    docker rmi ${name_imagen}
+                    docker ps
+                    
                     '''
                     }
                 }                                     
             }
+
         }
 
     }
