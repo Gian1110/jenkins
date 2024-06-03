@@ -28,21 +28,12 @@ pipeline {
                     sh ''' 
                     docker build -t ${name_imagen} dockerweb-multiserver/
                     docker push ${name_imagen}
+                    docker rmi ${name_imagen}
                     '''
                     }
                     
                 }                    
                                   
-            }
-
-        stage('rmi') {
-            steps {
-                script {
-                    sh '''
-                        docker rmi ${name_imagen}
-                    '''
-                    }
-                }                                 
             }
 
         stage('ssh pull') {
@@ -62,26 +53,32 @@ pipeline {
         stage('ssh rm') {
             steps {
                 script{
+
                     def parameterMap = [:]
                     parameterMap["remoteHost"] = params.remoteHost
                     parameterMap["nameContainer"] = name_container
                     dockerb.dockerStopRm(parameterMap);
+
                     }
-                    
                 }  
             
             }
 
-        // stage('ssh run') {
-        //     steps {
-        //         script{
-        //             def remoteHost = readJSON text: env.REMOTE_HOST_JSON
-        //             sshCommand remote: remoteHost, command: "docker run -d -p ${puerto_imagen}:80 --name ${name_container} ${name_imagen}"
-        //             }
+        stage('ssh run') {
+            steps {
+                script{
+
+                    def parameterMap = [:]
+                    parameterMap["remoteHost"] = params.remoteHost
+                    parameterMap["nameContainer"] = name_container
+                    parameterMap["nameImagen"] = name_imagen
+                    parameterMap["puertoContainer"] = puerto_imagen
+                    dockerb.dockerStopRm(parameterMap);
                     
-        //         }  
+                    }
+                }  
             
-        //     }
+            }
         }
 
     }
