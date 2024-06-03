@@ -38,20 +38,20 @@ pipeline {
                                   
             }
 
-    stage('ssh pull') {
-            steps {
-                script{
-                        def parameterMap = [:]
-                        parameterMap["remoteHost"] = params.remoteHost
-                        parameterMap["nameContainer"] = name_container
-                        parameterMap["versionImagen"] = version_imagen
-                        dockerb.dockerPull(parameterMap);
+    // stage('ssh pull') {
+    //         steps {
+    //             script{
+    //                     def parameterMap = [:]
+    //                     parameterMap["remoteHost"] = params.remoteHost
+    //                     parameterMap["nameContainer"] = name_container
+    //                     parameterMap["versionImagen"] = version_imagen
+    //                     dockerb.dockerPull(parameterMap);
                             
-                    }
+    //                 }
                     
-                }  
+    //             }  
             
-            }
+    //         }
 
         // stage('ssh rm and run') {
         //     steps {
