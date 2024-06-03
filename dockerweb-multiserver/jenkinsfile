@@ -41,7 +41,8 @@ pipeline {
                 script{
                         def parameterMap = [:]
                         parameterMap["remoteHost"] = params.remoteHost
-                        parameterMap["nameImagen"] = name_imagen
+                        parameterMap["ContainerName"] = name_container
+                        parameterMap["imagenVersion"] = version_imagen
                         dockerb.dockerPull(parameterMap);
                             
                     }
