@@ -17,7 +17,7 @@ pipeline {
         name_container = 'proyecto-qa'
         name_imagen_origen = 'iproyecto-qa'
         puerto_imagen = '81'
-        name_imagen = "192.168.100.173:5000/iproyecto-qa:latest"   
+        name_imagen = "192.168.100.173:5000/proyecto-qa:latest"   
 
     }
     stages {
@@ -34,41 +34,20 @@ pipeline {
         //         }                    
                                   
         //     }
-        stage('build') {
+        stage('build and push') {
             steps {
                 script{
-                    sh "docker build -t ${name_imagen} dockerweb-multiserver/"
-    
-                    }
-                    
-                }                    
-                                  
-            }
-            stage('push') {
-            steps {
-                script{
-                    
-                    sh "docker push ${name_imagen}"
-                 
-    
+                    sh ''' 
+                    docker build -t ${name_imagen} dockerweb-multiserver/
+                    docker push ${name_imagen}
+                    docker rmi ${name_imagen}
+                    '''
                     }
                     
                 }                    
                                   
             }
 
-            stage('rmi') {
-            steps {
-                script{
-                    
-                   
-                    sh "docker rmi ${name_imagen}"
-    
-                    }
-                    
-                }                    
-                                  
-            }
         stage('ssh pull') {
             steps {
                 script{
