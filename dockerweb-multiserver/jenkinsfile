@@ -19,10 +19,10 @@ pipeline {
         stage('build and push') {
             steps {
                 script{
-                        def parametersMap = [:]
+                        def parameterMap = [:]
                         parameterMap["containerName"] = name_container
                         parameterMap["imagenVersion"] = version_imagen
-                        dockerb.dockerBuildPush(parametersMap);
+                        dockerb.dockerBuildPush(parameterMap);
                 }                                     
             }
         }
