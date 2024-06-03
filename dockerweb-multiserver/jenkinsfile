@@ -37,7 +37,7 @@ pipeline {
         stage('build and push') {
             steps {
                 script{
-                    def nameImagen = ConfigJenkins.getImagenRegistry(params.nameContainer,params.versionImagen)
+                    def nameImagen = ConfigJenkins.getImagenRegistry(name_container,imagenver)
                     sh "docker build -t ${nameImagen} dockerweb-multiserver/"
                     sh "docker push ${nameImagen}"
                     sh "docker rmi ${nameImagen}"
