@@ -17,7 +17,7 @@ pipeline {
         name_container = 'proyecto-qa'
         name_imagen_origen = 'iproyecto-qa'
         puerto_imagen = '81'
-        name_imagen = "192.168.100.173:5000/${name_imagen_origen}:${imagenver}"   
+        name_imagen = "192.168.100.173:5000/iproyecto-qa:latest"   
 
     }
     stages {
@@ -37,8 +37,7 @@ pipeline {
         stage('build') {
             steps {
                 script{
-                    def nameImagen = ConfigJenkins.getImagenRegistry(name_container,imagenver)
-                    sh "docker build -t ${nameImagen} dockerweb-multiserver/"
+                    sh "docker build -t ${name_imagen} dockerweb-multiserver/"
     
                     }
                     
@@ -48,8 +47,8 @@ pipeline {
             stage('push') {
             steps {
                 script{
-                    def nameImagen = ConfigJenkins.getImagenRegistry(name_container,imagenver)
-                    sh "docker push ${nameImagen}"
+                    
+                    sh "docker push ${name_imagen}"
                  
     
                     }
@@ -61,9 +60,9 @@ pipeline {
             stage('rmi') {
             steps {
                 script{
-                    def nameImagen = ConfigJenkins.getImagenRegistry(name_container,imagenver)
+                    
                    
-                    sh "docker rmi ${nameImagen}"
+                    sh "docker rmi ${name_imagen}"
     
                     }
                     
