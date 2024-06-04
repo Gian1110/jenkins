@@ -8,11 +8,11 @@ pipeline {
   parameters {
       //server values
         string(name: 'remoteHost', defaultValue: '192.168.100.173', description: 'dns o ip del host')
-        string(name: 'version_imagen_picking', defaultValue: 'latest', description: 'version de la applicacion')
-        string(name: 'version_imagen_cac', defaultValue: 'latest', description: 'version de la applicacion')
-        string(name: 'version_imagen_checkout', defaultValue: 'latest', description: 'version de la applicacion')
-        string(name: 'version_imagen_hub', defaultValue: 'latest', description: 'version de la applicacion')
-        string(name: 'version_imagen_login', defaultValue: 'latest', description: 'version de la applicacion')
+        string(name: 'release_version_picking', defaultValue: 'release/v1.0.0', description: 'version de la applicacion')
+        string(name: 'release_version_cac', defaultValue: 'release/v1.0.0', description: 'version de la applicacion')
+        string(name: 'release_version_checkout', defaultValue: 'release/v1.0.0', description: 'version de la applicacion')
+        string(name: 'release_version_hub', defaultValue: 'release/v1.0.0', description: 'version de la applicacion')
+        string(name: 'release_version_login', defaultValue: 'release/v1.0.0', description: 'version de la applicacion')
 
   }
   stages {
@@ -22,7 +22,7 @@ pipeline {
         steps {
             build job: "picking", parameters: [
               string(name: "remoteHost", value: "${remoteHost}"),
-              string(name: "version_imagen", value:"${version_imagen_picking}")
+              string(name: "release_version", value:"${release_version_picking}")
             ]
         }
     }
@@ -32,7 +32,7 @@ pipeline {
         steps {
             build job: "cac", parameters: [
               string(name: "remoteHost", value: "${remoteHost}"),
-              string(name: "version_imagen", value:"${version_imagen_cac}")
+              string(name: "release_version", value:"${release_version_cac}")
             ]
         }
     }
@@ -42,7 +42,7 @@ pipeline {
         steps {
             build job: "checkout", parameters: [
               string(name: "remoteHost", value: "${remoteHost}"),
-              string(name: "version_imagen", value:"${version_imagen_checkout}")
+              string(name: "release_version", value:"${release_version_checkout}")
             ]
         }
     }
@@ -52,7 +52,7 @@ pipeline {
         steps {
             build job: "hub", parameters: [
               string(name: "remoteHost", value: "${remoteHost}"),
-              string(name: "version_imagen", value:"${version_imagen_hub}")
+              string(name: "release_version", value:"${release_version_hub}")
             ]
         }
     }
@@ -62,7 +62,7 @@ pipeline {
         steps {
             build job: "login", parameters: [
               string(name: "remoteHost", value: "${remoteHost}"),
-              string(name: "version_imagen", value:"${version_imagen_login}")
+              string(name: "release_version", value:"${release_version_login}")
             ]
         }
     }
