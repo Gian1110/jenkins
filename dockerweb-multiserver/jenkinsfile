@@ -11,15 +11,17 @@ pipeline {
     environment {
         // container values
         name_container = 'proyecto-qa'
-        puerto_imagen = '81'  
+        puerto_imagen = '81'
+        path_proyect = './dockerweb-multiserver'  
 
     }
     stages {
 
-        stage('build and push') {
+        stage('docker build and push') {
             steps {
                 script{
                         def parameterMap = [:]
+                        parameterMap["path"] = path_proyect
                         parameterMap["containerName"] = name_container
                         parameterMap["imagenVersion"] = version_imagen
                         dockerb.dockerBuildPush(parameterMap);
