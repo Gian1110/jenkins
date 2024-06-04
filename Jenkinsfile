@@ -15,9 +15,6 @@ pipeline {
         string(name: 'version_imagen_login', defaultValue: 'latest', description: 'version de la applicacion')
 
   }
-  environment {
-
-  }
   stages {
 
     stage("picking"){
