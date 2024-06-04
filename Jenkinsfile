@@ -21,8 +21,8 @@ pipeline {
      
         steps {
             build job: "picking", parameters: [
-              string(name: "remoteHost", value: "remoteHost"),
-              string(name: "version_imagen", value:"version_imagen_picking")
+              string(name: "remoteHost", value: "${remoteHost}"),
+              string(name: "version_imagen", value:"${version_imagen_picking}")
             ]
         }
     }
