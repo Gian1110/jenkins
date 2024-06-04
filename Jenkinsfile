@@ -5,33 +5,30 @@ def jsonParse(def json) {
 }
 pipeline {
   agent any
+
+      //server values
+        string(name: 'remoteHost', defaultValue: '192.168.100.173', description: 'dns o ip del host')
+        string(name: 'version_imagen_picking', defaultValue: 'latest', description: 'version de la applicacion')
+        string(name: 'version_imagen_cac', defaultValue: 'latest', description: 'version de la applicacion')
+        string(name: 'version_imagen_checkout', defaultValue: 'latest', description: 'version de la applicacion')
+        string(name: 'version_imagen_hub', defaultValue: 'latest', description: 'version de la applicacion')
+        string(name: 'version_imagen_login', defaultValue: 'latest', description: 'version de la applicacion')
+
+
   environment {
-    appName = "variable" 
+
   }
   stages {
 
- stage("paso 1"){
+    stage("picking"){
      
-      steps {
-          script {			
-           sh "echo 'hola mundo'"
+        steps {
+            build job: "picking", parameters: [
+              string(name: "remoteHost", value: "host129b"),
+              string(name: "version_imagen", value:"latest")
+            ]
         }
-      }
     }
-  }
-  post {
-      always {          
-          deleteDir()
-           sh "echo 'fase always'"
-      }
-      success {
-            sh "echo 'fase success'"
-        }
-
-      failure {
-            sh "echo 'fase failure'"
-      }
-      
   }
 }  
 
