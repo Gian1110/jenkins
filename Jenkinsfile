@@ -5,7 +5,7 @@ def jsonParse(def json) {
 }
 pipeline {
   agent any
-
+  parameters {
       //server values
         string(name: 'remoteHost', defaultValue: '192.168.100.173', description: 'dns o ip del host')
         string(name: 'version_imagen_picking', defaultValue: 'latest', description: 'version de la applicacion')
@@ -14,7 +14,7 @@ pipeline {
         string(name: 'version_imagen_hub', defaultValue: 'latest', description: 'version de la applicacion')
         string(name: 'version_imagen_login', defaultValue: 'latest', description: 'version de la applicacion')
 
-
+  }
   environment {
 
   }
@@ -24,8 +24,8 @@ pipeline {
      
         steps {
             build job: "picking", parameters: [
-              string(name: "remoteHost", value: "host129b"),
-              string(name: "version_imagen", value:"latest")
+              string(name: "remoteHost", value: "remoteHost"),
+              string(name: "version_imagen", value:"version_imagen_picking")
             ]
         }
     }
