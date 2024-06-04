@@ -26,6 +26,46 @@ pipeline {
             ]
         }
     }
+
+    stage("cac"){
+     
+        steps {
+            build job: "cac", parameters: [
+              string(name: "remoteHost", value: "${remoteHost}"),
+              string(name: "version_imagen", value:"${version_imagen_cac}")
+            ]
+        }
+    }
+
+    stage("checkout"){
+     
+        steps {
+            build job: "checkout", parameters: [
+              string(name: "remoteHost", value: "${remoteHost}"),
+              string(name: "version_imagen", value:"${version_imagen_checkout}")
+            ]
+        }
+    }
+
+    stage("hub"){
+     
+        steps {
+            build job: "hub", parameters: [
+              string(name: "remoteHost", value: "${remoteHost}"),
+              string(name: "version_imagen", value:"${version_imagen_hub}")
+            ]
+        }
+    }
+
+    stage("login"){
+     
+        steps {
+            build job: "login", parameters: [
+              string(name: "remoteHost", value: "${remoteHost}"),
+              string(name: "version_imagen", value:"${version_imagen_login}")
+            ]
+        }
+    }
   }
 }  
 
