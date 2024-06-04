@@ -10,9 +10,9 @@ pipeline {
     }
     environment {
         // container values
-        name_container = 'picking'
-        puerto_imagen = '5000'
-        path_proyect = './picking'  
+        name_container = 'cac'
+        puerto_imagen = '5001'
+        path_proyect = './back2_cac'  
 
     }
     stages {
