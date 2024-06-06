@@ -13,6 +13,10 @@ pipeline {
   environment {
     def job1 = "picking"
     def pathJsonFile = "release.json"
+    def parameterMap = [:]
+              parameterMap["jobName"] = job1
+              parameterMap["remoteHost"] = remoteHost
+              parameterMap["imageVersion"] = "1.0.1"
   }
   stages {
     stage("read release"){
@@ -27,10 +31,7 @@ pipeline {
      
         steps {
            
-              def parameterMap = [:]
-              parameterMap["jobName"] = job1
-              parameterMap["remoteHost"] = remoteHost
-              parameterMap["imageVersion"] = "1.0.1"
+              
               dockerb.callJob(parameterMap);
             
         }
