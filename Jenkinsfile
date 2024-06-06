@@ -23,7 +23,7 @@ pipeline {
             }
         }
     }
-    stage("${job1}"){
+    stage("picking"){
      
         steps {
             script{
