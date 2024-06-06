@@ -26,11 +26,12 @@ pipeline {
            
               script{
 
+                def version = jsonData["${job1}"]
                 def parameterMap = [:]
                 parameterMap["jobName"] = job1
                 parameterMap["remoteHost"] = remoteHost
-                parameterMap["imageVersion"] = jsonData["${job1}"]
-                echo "${parameterMap}"
+                parameterMap["imageVersion"] = version
+                echo "${version}"
                 dockerb.callJob(parameterMap);
 
               }
