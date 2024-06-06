@@ -1,7 +1,5 @@
 @Library('jenkins-libs') _
 
-def pathJsonFile = "release.json"
-String job1 = "picking"
 pipeline {
   agent any
   parameters {
@@ -9,14 +7,17 @@ pipeline {
         string(name: 'remoteHost', defaultValue: '192.168.100.173', description: 'dns o ip del host')
         string(name: 'release_version', defaultValue: '1.0.0', description: 'version de la applicacion')
   }
+  environmet {
+    def pathJsonFile = "release.json"
+  }
   stages {
  
-    stage('${job1}'){
+    stage("picking"){
      
         steps {
            
               script{
-                
+                def job1 = "picking"
                 def jsonData = readJSON file: pathJsonFile 
                 def parameterMap = [:]
                 parameterMap["jobName"] = job1
