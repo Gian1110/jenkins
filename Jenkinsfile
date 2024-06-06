@@ -12,7 +12,7 @@ pipeline {
   }
   stages {
  
-    stage(job1){
+    stage("${job1}"){
      
         steps {
            
