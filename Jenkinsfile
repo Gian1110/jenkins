@@ -16,7 +16,19 @@ pipeline {
 
   }
   stages {
+    stage("read release"){
+     
+        steps {
+            script {
 
+              def jsonFile = "release.json"
+              def jsonData = readJSON file: jsonFile
+              echo "json content: ${jsonData}"
+              def key1 = jsonData["key1"]
+              echo "valor1: ${key1}"
+            }
+        }
+    }
     stage("picking"){
      
         steps {
