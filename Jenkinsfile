@@ -26,7 +26,7 @@ pipeline {
            
               script{
 
-                def version = jsonData["${job1}"]
+                def version = jsonData[job1]
                 echo "${version}"
                 def parameterMap = [:]
                 parameterMap["jobName"] = job1
