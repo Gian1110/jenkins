@@ -1,14 +1,14 @@
 @Library('jenkins-libs') _
+
+def job1 = "picking"
+def pathJsonFile = "release.json"
+
 pipeline {
   agent any
   parameters {
       //server values
         string(name: 'remoteHost', defaultValue: '192.168.100.173', description: 'dns o ip del host')
         string(name: 'release_version', defaultValue: '1.0.0', description: 'version de la applicacion')
-  }
-  environment {
-    def job1 = "picking"
-    def pathJsonFile = "release.json"
   }
   stages {
  
