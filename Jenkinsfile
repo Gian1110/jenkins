@@ -20,7 +20,7 @@ pipeline {
             }
         }
     }
-    stage(job1){
+    stage("Picking"){
      
         steps {
            
@@ -29,7 +29,7 @@ pipeline {
                 def parameterMap = [:]
                 parameterMap["jobName"] = job1
                 parameterMap["remoteHost"] = remoteHost
-                parameterMap["imageVersion"] = jsonData[job1]
+                parameterMap["imageVersion"] = jsonData["${job1}"]
                 dockerb.callJob(parameterMap);
 
               }
