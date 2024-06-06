@@ -20,11 +20,7 @@ pipeline {
         steps {
             script {
               def jsonData = readJSON file: pathJsonFile 
-              def parameterMap = [:]
-              parameterMap["jobName"] = job1
-              parameterMap["remoteHost"] = remoteHost
-              parameterMap["imageVersion"] = "1.0.1"
-              env.map = parameterMap
+             
             }
         }
     }
@@ -32,9 +28,15 @@ pipeline {
      
         steps {
            
-              
-              dockerb.callJob(map);
-            
+              script{
+
+                def parameterMap = [:]
+                parameterMap["jobName"] = job1
+                parameterMap["remoteHost"] = remoteHost
+                parameterMap["imageVersion"] = "1.0.1"
+                dockerb.callJob(map);
+                
+              }
         }
     }
 
