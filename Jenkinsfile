@@ -26,14 +26,13 @@ pipeline {
     stage("picking"){
      
         steps {
-            script{
+           
               def parameterMap = [:]
               parameterMap["jobName"] = job1
               parameterMap["remoteHost"] = remoteHost
               parameterMap["imageVersion"] = "1.0.1"
-              echo "${parameterMap}"
               dockerb.callJob(parameterMap);
-            }
+            
         }
     }
 
