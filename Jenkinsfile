@@ -10,27 +10,28 @@ pipeline {
         string(name: 'remoteHost', defaultValue: '192.168.100.173', description: 'dns o ip del host')
         string(name: 'release_version', defaultValue: '1.0.0', description: 'version de la applicacion')
   }
+  environment {
+    def job1 = "picking"
+    def pathJsonFile = "release.json"
+  }
   stages {
     stage("read release"){
      
         steps {
             script {
-
-              def pathJsonFile = "release.json"
-              def jsonData = readJSON file: pathJsonFile
-              echo "json content: ${jsonData}"
-              def key1 = jsonData["key1"]
-              echo "valor1: ${key1}"
+              def jsonData = readJSON file: pathJsonFile 
             }
         }
     }
-    stage("picking"){
+    stage("${job1}"){
      
         steps {
-            build job: "picking", parameters: [
-              string(name: "remoteHost", value: "${remoteHost}"),
-              string(name: "imagenVersion", value:"${release_version_picking}")
-            ]
+            script{
+              def parameterMap = [:]
+              parameterMap["jobName"] = job1
+              parameterMap["remoteHost"] = remoteHost
+              parameterMap["imageVersion"] = jsonData["${job1}"]
+            }
         }
     }
 
