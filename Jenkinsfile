@@ -30,7 +30,7 @@ pipeline {
                 parameterMap["jobName"] = job1
                 parameterMap["remoteHost"] = remoteHost
                 parameterMap["imageVersion"] = "1.0.1"
-                dockerb.callJob(map);
+                dockerb.callJob(parameterMap);
 
               }
         }
