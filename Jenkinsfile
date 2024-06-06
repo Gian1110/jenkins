@@ -15,7 +15,7 @@ pipeline {
      
         steps {
             script {
-              def env.jsonData = readJSON file: pathJsonFile 
+              env.jsonData = readJSON file: pathJsonFile 
              
             }
         }
