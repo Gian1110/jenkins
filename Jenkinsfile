@@ -8,12 +8,7 @@ pipeline {
   parameters {
       //server values
         string(name: 'remoteHost', defaultValue: '192.168.100.173', description: 'dns o ip del host')
-        string(name: 'release_version_picking', defaultValue: '1.0.0', description: 'version de la applicacion')
-        string(name: 'release_version_cac', defaultValue: '1.0.0', description: 'version de la applicacion')
-        string(name: 'release_version_checkout', defaultValue: '1.0.0', description: 'version de la applicacion')
-        string(name: 'release_version_hub', defaultValue: '1.0.0', description: 'version de la applicacion')
-        string(name: 'release_version_login', defaultValue: '1.0.0', description: 'version de la applicacion')
-
+        string(name: 'release_version', defaultValue: '1.0.0', description: 'version de la applicacion')
   }
   stages {
     stage("read release"){
@@ -21,8 +16,8 @@ pipeline {
         steps {
             script {
 
-              def jsonFile = "release.json"
-              def jsonData = readJSON file: jsonFile
+              def pathJsonFile = "release.json"
+              def jsonData = readJSON file: pathJsonFile
               echo "json content: ${jsonData}"
               def key1 = jsonData["key1"]
               echo "valor1: ${key1}"

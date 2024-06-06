@@ -1,6 +1,7 @@
 {
-    "key1":"hola",
-    "key2":"mundo",
-    "key3":"hello",
-    "key4":"world"
+    "picking":"1.0.0",
+    "cac":"1.0.0",
+    "checkout":"1.0.0",
+    "hub":"1.0.0",
+    "login":"1.0.0"
 }
