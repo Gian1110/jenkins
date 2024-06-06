@@ -1,8 +1,7 @@
 @Library('jenkins-libs') _
 
-def job1 = "picking"
 def pathJsonFile = "release.json"
-
+String job1 = "picking"
 pipeline {
   agent any
   parameters {
@@ -12,11 +11,12 @@ pipeline {
   }
   stages {
  
-    stage("${job1}"){
+    stage(job1){
      
         steps {
            
               script{
+                
                 def jsonData = readJSON file: pathJsonFile 
                 def parameterMap = [:]
                 parameterMap["jobName"] = job1
