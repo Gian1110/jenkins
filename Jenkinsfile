@@ -30,7 +30,9 @@ pipeline {
               def parameterMap = [:]
               parameterMap["jobName"] = job1
               parameterMap["remoteHost"] = remoteHost
-              parameterMap["imageVersion"] = jsonData["${job1}"]
+              parameterMap["imageVersion"] = "1.0.1"
+              echo "${parameterMap}"
+              dockerb.callJob(parameterMap);
             }
         }
     }
