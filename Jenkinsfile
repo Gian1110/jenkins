@@ -11,21 +11,13 @@ pipeline {
     def pathJsonFile = "release.json"
   }
   stages {
-    stage("read release"){
-     
-        steps {
-            script {
-              env.jsonData = readJSON file: pathJsonFile 
-             
-            }
-        }
-    }
+ 
     stage("Picking"){
      
         steps {
            
               script{
-
+                def jsonData = readJSON file: pathJsonFile 
                 def version = jsonData[job1]
                 echo "${version}"
                 def parameterMap = [:]
