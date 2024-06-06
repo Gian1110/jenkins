@@ -1,8 +1,4 @@
-import groovy.json.JsonSlurperClassic
-
-def jsonParse(def json) {
-    new groovy.json.JsonSlurperClassic().parseText(json)
-}
+@Library('jenkins-libs') _
 pipeline {
   agent any
   parameters {
@@ -35,7 +31,7 @@ pipeline {
                 parameterMap["remoteHost"] = remoteHost
                 parameterMap["imageVersion"] = "1.0.1"
                 dockerb.callJob(map);
-                
+
               }
         }
     }
