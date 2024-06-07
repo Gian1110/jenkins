@@ -17,9 +17,9 @@ pipeline {
         steps {
            
               script{
-                def job1 = "picking"
+              
                 def parameterMap = [:]
-                parameterMap["jobName"] = job1
+                parameterMap["jobName"] = "picking"
                 parameterMap["remoteHost"] = remoteHost
                 parameterMap["pathJson"] = pathJsonFile
                 dockerb.callJob(parameterMap);
@@ -31,10 +31,16 @@ pipeline {
     stage("cac"){
      
         steps {
-            build job: "cac", parameters: [
-              string(name: "remoteHost", value: "${remoteHost}"),
-              string(name: "imagenVersion", value:"${release_version_cac}")
-            ]
+
+          script{
+                
+                def parameterMap = [:]
+                parameterMap["jobName"] = cac
+                parameterMap["remoteHost"] = remoteHost
+                parameterMap["pathJson"] = pathJsonFile
+                dockerb.callJob(parameterMap);
+
+              }
         }
     }
 
