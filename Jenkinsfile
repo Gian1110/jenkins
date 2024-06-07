@@ -12,17 +12,16 @@ pipeline {
   }
   stages {
  
-    stage("picking"){
+    stage("Picking"){
      
         steps {
            
               script{
                 def job1 = "picking"
-                def jsonData = readJSON file: pathJsonFile 
                 def parameterMap = [:]
                 parameterMap["jobName"] = job1
                 parameterMap["remoteHost"] = remoteHost
-                parameterMap["imageVersion"] = jsonData[job1]
+                parameterMap["pathJson"] = pathJsonFile
                 dockerb.callJob(parameterMap);
 
               }
