@@ -35,7 +35,7 @@ pipeline {
           script{
                 
                 def parameterMap = [:]
-                parameterMap["jobName"] = cac
+                parameterMap["jobName"] = "cac"
                 parameterMap["remoteHost"] = remoteHost
                 parameterMap["pathJson"] = pathJsonFile
                 dockerb.callJob(parameterMap);
