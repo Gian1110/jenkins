@@ -22,7 +22,7 @@ pipeline {
                 parameterMap["jobName"] = "picking"
                 parameterMap["remoteHost"] = remoteHost
                 parameterMap["pathJson"] = pathJsonFile
-                dockerb.callJob(parameterMap);
+                gitJob.callJob(parameterMap);
 
               }
         }
@@ -38,7 +38,7 @@ pipeline {
                 parameterMap["jobName"] = "cac"
                 parameterMap["remoteHost"] = remoteHost
                 parameterMap["pathJson"] = pathJsonFile
-                dockerb.callJob(parameterMap);
+                gitJob.callJob(parameterMap);
 
               }
         }
