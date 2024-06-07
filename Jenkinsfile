@@ -11,7 +11,16 @@ pipeline {
     def pathJsonFile = "release.json"
   }
   stages {
- 
+    stage('Checkout on release') {
+          steps {
+              script {
+                  def parameterMap = [:]
+                  parameterMap["imagenVersion"] = release_version
+                  gitJob.checkoutBranch(parameterMap);
+
+              }
+          }
+    }
     stage("Picking"){
      
         steps {
