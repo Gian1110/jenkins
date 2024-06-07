@@ -24,7 +24,7 @@ pipeline {
                 parameterMap["pathJson"] = pathJsonFile
                 gitJob.callJob(parameterMap);
                 def jsonData = readJSON file: pathJsonFile
-                echo ${jsonData}
+                echo "${jsonData}"
 
               }
         }
