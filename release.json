@@ -3,5 +3,9 @@
     "cac":"1.0.0",
     "checkout":"1.0.0",
     "hub":"1.0.0",
-    "login":"1.0.0"
+    "login":"1.0.0",
+    "tools":"1.0.0",
+    "facturacion":"1.0.0",
+    "printer":"1.0.0",
+    "front":"1.0.0"
 }

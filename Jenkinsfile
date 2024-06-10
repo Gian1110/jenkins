@@ -31,8 +31,6 @@ pipeline {
                 parameterMap["remoteHost"] = remoteHost
                 parameterMap["pathJson"] = pathJsonFile
                 gitJob.callJob(parameterMap);
-                def jsonData = readJSON file: pathJsonFile
-                echo "${jsonData}"
 
               }
         }

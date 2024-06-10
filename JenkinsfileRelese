@@ -1,0 +1,42 @@
+@Library('jenkins-libs') _
+
+pipeline {
+    agent any
+  parameters {
+    string(name: 'release_version', defaultValue: '1.0.0', description: 'version de las applicaciones')
+    string(name: 'release_version_picking', defaultValue: '1.0.0', description: 'version de picking')
+    string(name: 'release_version_cac', defaultValue: '1.0.0', description: 'version de cac')
+    string(name: 'release_version_checkout', defaultValue: '1.0.0', description: 'version de checkout')
+    string(name: 'release_version_hub', defaultValue: '1.0.0', description: 'version de hub')
+    string(name: 'release_version_login', defaultValue: '1.0.0', description: 'version de login')
+    string(name: 'release_version_tools', defaultValue: '1.0.0', description: 'version de tools')
+    string(name: 'release_version_facturacion', defaultValue: '1.0.0', description: 'version de facturacion')
+    string(name: 'release_version_printer', defaultValue: '1.0.0', description: 'version de printer')
+    string(name: 'release_version_front', defaultValue: '1.0.0', description: 'version de front')
+  }
+  environment {
+    def pathJsonFile = "release.json"
+  }
+  stages {
+    stage("edit"){
+      steps {
+          script {
+            def parameterMap = [:]
+            parameterMap["releaseVersion"] = params.release_version
+            parameterMap["pickingVersion"] = params.release_version_picking
+            parameterMap["cacVersion"] = params.release_version_cac
+            parameterMap["checkoutVersion"] = params.release_version_checkout
+            parameterMap["hubVersion"] = params.release_version_hub
+            parameterMap["loginVersion"] = params.release_version_login
+            parameterMap["toolsVersion"] = params.release_version_tools
+            parameterMap["facturacionVersion"] = params.release_version_facturacion
+            parameterMap["printerVersion"] = params.release_version_printer
+            parameterMap["frontVersion"] = params.release_version_front
+             parameterMap["pathJson"] = pathJsonFile
+            gitJob.editPush(parameterMap);
+          }
+      }
+    }
+
+  }
+}
