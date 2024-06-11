@@ -18,6 +18,14 @@ pipeline {
     def pathJsonFile = "release.json"
   }
   stages {
+     stage('Configurar Git') {
+            steps {
+                script {
+                    sh 'git config --global user.email "alucards2@hotmail.com"'
+                    sh 'git config --global user.name "Gian1110-2"'
+                }
+            }
+        }
     stage("edit"){
       steps {
           script {
