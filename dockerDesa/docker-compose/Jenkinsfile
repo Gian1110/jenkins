@@ -1,0 +1,94 @@
+@Library('jenkins-libs') _
+//idea, se ejecute docker build and push para cada repo y despues se sigue con este que hace ssh y baja
+// todas las imagenes y despues docker-compose up
+pipeline{
+    
+    agent any
+
+    parameters {
+      //server values
+        string(name: 'remoteHost', defaultValue: '192.168.100.173', description: 'dns o ip del host')
+        string(name: 'release_version', defaultValue: '1.0.0', description: 'version de la applicacion')
+  }
+  environment {
+    def pathJsonFile = "release.json"
+    def pathYamlFile = "/var/archivo.yaml"
+
+  }
+  stages {
+    stage("picking"){
+     
+        steps {
+
+          script{
+                
+                def parameterMap = [:]
+                parameterMap["jobName"] = "picking"
+                parameterMap["remoteHost"] = remoteHost
+                parameterMap["pathJson"] = pathJsonFile
+                gitJob.callJob(parameterMap);
+
+              }
+        }
+    }
+
+    stage("cac"){
+     
+        steps {
+
+          script{
+                
+                def parameterMap = [:]
+                parameterMap["jobName"] = "cac"
+                parameterMap["remoteHost"] = remoteHost
+                parameterMap["pathJson"] = pathJsonFile
+                gitJob.callJob(parameterMap);
+
+              }
+        }
+    }
+
+    stage("editar yaml"){
+      steps {
+          script {
+            
+            def parameterMap = [:]
+            parameterMap["jobName"] = "picking"
+            parameterMap["pathYaml"] = pathYamlFile
+            parameterMap["pathJson"] = pathJsonFile
+            dockerEditYaml(parameterMap);
+
+            parameterMap["jobName"] = "cac"
+            parameterMap["pathYaml"] = pathYamlFile
+            parameterMap["pathJson"] = pathJsonFile
+            dockerEditYaml(parameterMap);
+            
+            parameterMap["jobName"] = "check"
+            parameterMap["pathYaml"] = pathYamlFile
+            parameterMap["pathJson"] = pathJsonFile
+            dockerEditYaml(parameterMap);
+
+            parameterMap["jobName"] = "login"
+            parameterMap["pathYaml"] = pathYamlFile
+            parameterMap["pathJson"] = pathJsonFile
+            dockerb.dockerEditYaml(parameterMap);
+          }
+      }
+    }
+
+    stage("docker compose"){
+     
+        steps {
+
+          script{
+                
+                def parameterMap = [:]
+                parameterMap["remoteHost"] = remoteHost
+                dockerb.dockerCompose(parameterMap);
+
+              }
+        }
+    }
+
+  }
+}

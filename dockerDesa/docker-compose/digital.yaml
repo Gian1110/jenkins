@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  picking:
+    image: picking:1.0.0
+    container_name: picking
+    hostname: picking
+    ports:
+      - "80:80"
+    volumes:
+      - /var/docker/hola1:/hola1
+    env_file:
+      - /etc/docker/hola1.env
+    restart: unless-stopped
+
+  cac:
+    image: cac:1.2.0
+    container_name: cac
+    hostname: cac
+    ports:
+      - "8080:80"
+    volumes:
+      - /var/docker/hola2:/hola2
+    env_file:
+      - /etc/docker/hola2.env
+    restart: unless-stopped
+
+  check:
+    image: check:1.0.0
+    container_name: check
+    hostname: check
+    ports:
+      - "8081:80"
+    volumes:
+      - /var/docker/hola3:/hola3
+    env_file:
+      - /etc/docker/hola3.env
+    restart: unless-stopped
